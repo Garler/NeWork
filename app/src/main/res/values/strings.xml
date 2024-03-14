@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">NeWork</string>
+    <string name="author_avatar_image">The author\'s avatar</string>
+    <string name="menu_option">Menu Options</string>
+    <string name="image_content">Image content</string>
+    <string name="button_like">Button like</string>
+    <string name="button_share">Button share</string>
+    <string name="button_users">Button users</string>
 </resources>

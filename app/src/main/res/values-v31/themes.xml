@@ -3,5 +3,6 @@
     <style name="Theme.NeWork" parent="Base.Theme.NeWork">
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="android:windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splashscreen_branding_centered</item>
     </style>
 </resources>

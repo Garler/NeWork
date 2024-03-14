@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="author_avatar_image">Аватар автора</string>
+    <string name="menu_option">Опции меню</string>
+    <string name="image_content">Изображение контента</string>
+    <string name="button_like">Кнопка лайка</string>
+    <string name="button_share">Кнопка поделиться</string>
+    <string name="button_users">Кнопка пользователи</string>
+</resources>
