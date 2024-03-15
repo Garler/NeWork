@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/margin_min"
     android:layout_marginVertical="@dimen/margin_between_cards">
 
@@ -92,7 +92,7 @@
                     tools:src="@sample/images"
                     tools:visibility="gone" />
 
-                <androidx.media3.ui.PlayerView
+                <VideoView
                     android:id="@+id/video_content"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -17,6 +19,11 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -41,7 +48,12 @@ android {
 
 dependencies {
     implementation(libs.androidx.media3.ui)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui.ktx)
+    ksp(libs.hilt.compiler)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

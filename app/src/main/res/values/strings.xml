@@ -6,4 +6,9 @@
     <string name="button_like">Button like</string>
     <string name="button_share">Button share</string>
     <string name="button_users">Button users</string>
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="users">Users</string>
+    <string name="button_new_post">Button Create a new post</string>
+    <string name="button_new_event">Button Create a new event</string>
 </resources>

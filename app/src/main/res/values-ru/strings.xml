@@ -6,4 +6,9 @@
     <string name="button_like">Кнопка лайка</string>
     <string name="button_share">Кнопка поделиться</string>
     <string name="button_users">Кнопка пользователи</string>
+    <string name="posts">Посты</string>
+    <string name="events">События</string>
+    <string name="users">Пользователи</string>
+    <string name="button_new_post">Кнопка Создать новый пост</string>
+    <string name="button_new_event">Кнопка Создать новое событие</string>
 </resources>
