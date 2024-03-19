@@ -3,12 +3,20 @@
     <string name="author_avatar_image">The author\'s avatar</string>
     <string name="menu_option">Menu Options</string>
     <string name="image_content">Image content</string>
-    <string name="button_like">Button like</string>
-    <string name="button_share">Button share</string>
-    <string name="button_users">Button users</string>
+    <string name="button_like">Like</string>
+    <string name="button_share">Share</string>
+    <string name="button_users">Users</string>
     <string name="posts">Posts</string>
     <string name="events">Events</string>
     <string name="users">Users</string>
-    <string name="button_new_post">Button Create a new post</string>
-    <string name="button_new_event">Button Create a new event</string>
+    <string name="button_new_post">Create a new post</string>
+    <string name="button_new_event">Create a new event</string>
+    <string name="button_play_event">Play the event</string>
+    <string name="post">Post</string>
+    <string name="likers">Likers</string>
+    <string name="mentioned">Mentioned</string>
+    <string name="event">Event</string>
+    <string name="wall">Wall</string>
+    <string name="jobs">Jobs</string>
+    <string name="tabs">Tabs</string>
 </resources>

@@ -3,12 +3,16 @@
     <string name="author_avatar_image">Аватар автора</string>
     <string name="menu_option">Опции меню</string>
     <string name="image_content">Изображение контента</string>
-    <string name="button_like">Кнопка лайка</string>
-    <string name="button_share">Кнопка поделиться</string>
-    <string name="button_users">Кнопка пользователи</string>
+    <string name="button_like">Лайк</string>
+    <string name="button_share">Поделиться</string>
+    <string name="button_users">Пользователи</string>
     <string name="posts">Посты</string>
     <string name="events">События</string>
     <string name="users">Пользователи</string>
-    <string name="button_new_post">Кнопка Создать новый пост</string>
-    <string name="button_new_event">Кнопка Создать новое событие</string>
+    <string name="button_new_post">Создать новый пост</string>
+    <string name="button_new_event">Создать новое событие</string>
+    <string name="button_play_event">Воспроизведение события</string>
+    <string name="post">Пост</string>
+    <string name="likers">Лайки</string>
+    <string name="mentioned">Упомянутые пользователи</string>
 </resources>

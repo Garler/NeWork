@@ -43,6 +43,7 @@
                 app:layout_constraintEnd_toStartOf="@id/button_option"
                 app:layout_constraintStart_toEndOf="@id/author_avatar"
                 app:layout_constraintTop_toTopOf="@id/author_avatar"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="@sample/posts.json/data/author" />
 
             <TextView
@@ -74,7 +75,7 @@
                 app:constraint_referenced_ids="author_avatar,date_publication, button_option" />
 
             <LinearLayout
-                android:id="@+id/linear_media_content"
+                android:id="@+id/linear_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -99,16 +100,15 @@
                     android:visibility="gone"
                     tools:visibility="gone" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:padding="@dimen/padding_default"
+                    tools:text="@sample/posts.json/data/content" />
 
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:padding="@dimen/padding_default"
-                app:layout_constraintTop_toBottomOf="@id/linear_media_content"
-                tools:text="@sample/posts.json/data/content" />
+            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/button_like"
@@ -122,7 +122,7 @@
                 android:textColor="@color/md_theme_primary"
                 app:buttonTint="@color/md_theme_primary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/content"
+                app:layout_constraintTop_toBottomOf="@id/linear_content"
                 tools:text="@sample/posts.json/data/likes" />
 
             <com.google.android.material.button.MaterialButton

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_bottom_navigation_view"
     app:startDestination="@id/postsFragment">
+
     <fragment
         android:id="@+id/postsFragment"
         android:name="ru.netology.nework.activity.PostsFragment"
@@ -19,4 +20,5 @@
         android:name="ru.netology.nework.activity.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" />
+
 </navigation>

@@ -43,6 +43,7 @@
                 app:layout_constraintEnd_toStartOf="@id/check_box"
                 app:layout_constraintStart_toEndOf="@id/author_avatar"
                 app:layout_constraintTop_toTopOf="@id/author_avatar"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="@sample/posts.json/data/author" />
 
             <TextView

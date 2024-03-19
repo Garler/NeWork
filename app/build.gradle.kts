@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -19,6 +21,19 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        val file = rootProject.file("local.properties")
+        if (file.exists()) {
+            properties.load(file.inputStream())
+        }
+        buildConfigField("String", "BASE_URL", "\"${"http://94.228.125.136:8080/"}\"")
+        buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY", "")}\"")
+        buildConfigField(
+            "String",
+            "MAPKIT_API_KEY",
+            "\"${properties.getProperty("MAPKIT_API_KEY", "")}\""
+        )
     }
 
     buildFeatures {
@@ -37,7 +52,7 @@ android {
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -54,13 +69,14 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     ksp(libs.hilt.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.maps.mobile)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
