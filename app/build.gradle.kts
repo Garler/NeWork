@@ -27,7 +27,6 @@ android {
         if (file.exists()) {
             properties.load(file.inputStream())
         }
-        buildConfigField("String", "BASE_URL", "\"${"http://94.228.125.136:8080/"}\"")
         buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY", "")}\"")
         buildConfigField(
             "String",
