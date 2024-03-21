@@ -15,4 +15,24 @@
     <string name="post">Пост</string>
     <string name="likers">Лайки</string>
     <string name="mentioned">Упомянутые пользователи</string>
+    <string name="event">Событие</string>
+    <string name="wall">Публикации</string>
+    <string name="jobs">Места работы</string>
+    <string name="new_post">Новый пост</string>
+    <string name="whats_news">Что нового?</string>
+    <string name="remove">Удалить</string>
+    <string name="button_add_photo">Добавить фото</string>
+    <string name="button_add_file">Добавить файл</string>
+    <string name="button_add_location">Добавить точку на карте</string>
+    <string name="button_choose_users">Добавить пользователей</string>
+    <string name="new_event">Новое событие</string>
+    <string name="what_event">Какое событие?</string>
+    <string name="new_job">Новое место работы</string>
+    <string name="name">Имя</string>
+    <string name="position">Должность</string>
+    <string name="link">Ссылка</string>
+    <string name="date_start">Дата начала</string>
+    <string name="date_finish">Дата окончания</string>
+    <string name="create">Создать</string>
+    <string name="button_select_date">Выбрать дату</string>
 </resources>

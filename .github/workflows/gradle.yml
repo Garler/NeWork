@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: 17
 
-      - name: Decode local properties
+      - name: Decode local.properties
         env:
             API_KEY: ${{ secrets.API_KEY }}
             MAPKIT_API_KEY: ${{ secrets.MAPKIT_API_KEY }}

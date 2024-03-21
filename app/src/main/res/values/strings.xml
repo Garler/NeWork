@@ -18,5 +18,22 @@
     <string name="event">Event</string>
     <string name="wall">Wall</string>
     <string name="jobs">Jobs</string>
-    <string name="tabs">Tabs</string>
+    <string name="new_post">New post</string>
+    <string name="whats_news">Whats news?</string>
+    <string name="remove">Remove</string>
+    <string name="button_add_photo">Add photo</string>
+    <string name="button_add_file">Add file</string>
+    <string name="button_add_location">Add location</string>
+    <string name="button_choose_users">Choose users</string>
+    <string name="new_event">New event</string>
+    <string name="what_event">What event?</string>
+    <string name="new_job">New job</string>
+    <string name="name">Name</string>
+    <string name="position">Position</string>
+    <string name="link">Link</string>
+    <string name="date_start">Date start</string>
+    <string name="date_finish">Date finish</string>
+    <string name="dash" translatable="false">" ‒ "</string>
+    <string name="create">Сreate</string>
+    <string name="button_select_date">Select date</string>
 </resources>
