@@ -1,6 +1,7 @@
 [versions]
 agp = "8.3.1"
 coreSplashscreen = "1.0.1"
+coreSplashscreenVersion = "1.0.0"
 desugar_jdk_libs = "2.0.4"
 hiltAndroid = "2.50"
 kotlin = "1.9.22"
@@ -21,6 +22,7 @@ viewpager2 = "1.0.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-core-splashscreen-v100 = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreenVersion" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragment" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
