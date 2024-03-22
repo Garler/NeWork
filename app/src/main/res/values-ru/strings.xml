@@ -40,4 +40,8 @@
     <string name="register">Нет учетной записи? Зарегистрироваться</string>
     <string name="registration">Регистрация</string>
     <string name="address">Адрес</string>
+    <string name="user">Пользователь</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
 </resources>

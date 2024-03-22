@@ -41,4 +41,8 @@
     <string name="register">Don\'t have an account? Register</string>
     <string name="registration">Registration</string>
     <string name="address">Address</string>
+    <string name="user">User</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>
