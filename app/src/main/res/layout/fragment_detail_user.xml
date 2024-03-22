@@ -7,18 +7,26 @@
     tools:context="activity.DetailUserFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/topAppBar"
+                style="@style/Widget.Material3.AppBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_24" />
 
             <ImageView
                 android:id="@+id/user_photo"
@@ -30,16 +38,6 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 tools:src="@tools:sample/avatars" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/topAppBar"
-                style="@style/Widget.Material3.AppBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetEnd="0dp"
-                app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_24" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

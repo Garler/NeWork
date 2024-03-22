@@ -39,4 +39,5 @@
     <string name="password">Пароль</string>
     <string name="register">Нет учетной записи? Зарегистрироваться</string>
     <string name="registration">Регистрация</string>
+    <string name="address">Адрес</string>
 </resources>
