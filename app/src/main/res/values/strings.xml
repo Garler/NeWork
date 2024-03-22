@@ -36,4 +36,8 @@
     <string name="dash" translatable="false">" ‒ "</string>
     <string name="create">Сreate</string>
     <string name="button_select_date">Select date</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="register">Don\'t have an account? Register</string>
+    <string name="registration">Registration</string>
 </resources>

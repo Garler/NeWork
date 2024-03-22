@@ -35,4 +35,8 @@
     <string name="date_finish">Дата окончания</string>
     <string name="create">Создать</string>
     <string name="button_select_date">Выбрать дату</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="register">Нет учетной записи? Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
 </resources>
