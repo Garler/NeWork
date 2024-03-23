@@ -44,4 +44,17 @@
     <string name="save">Сохранить</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
+    <string name="share">Поделиться</string>
+    <string name="select_date">Выбранная дата</string>
+    <string name="enter_dates">Введите даты</string>
+    <string name="icon_calendar">Значок календаря</string>
+    <string name="end_date">Дата окончания</string>
+    <string name="mm_dd_yyyy">мм/дд/гггг</string>
+    <string name="action_ok">ОК</string>
+    <string name="action_cancel">Отменить</string>
+    <string name="date">Дата</string>
+    <string name="type">Тип</string>
+    <string name="online">Онлайн</string>
+    <string name="offline">Оффлайн</string>
+    <string name="mm_dd_yyyy_hh_mm">ММ/дд/гггг ЧЧ:мм</string>
 </resources>

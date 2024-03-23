@@ -45,4 +45,17 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="share">Share</string>
+    <string name="select_date">Select date</string>
+    <string name="enter_dates">Enter dates</string>
+    <string name="icon_calendar">Icon calendar</string>
+    <string name="end_date">End date</string>
+    <string name="mm_dd_yyyy">mm/dd/yyyy</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="date">Date</string>
+    <string name="type">Type</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+    <string name="mm_dd_yyyy_hh_mm">MM/dd/yyyy HH:mm</string>
 </resources>

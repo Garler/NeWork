@@ -69,8 +69,9 @@
 
     <LinearLayout
         android:id="@+id/bottomBar"
+        style="@style/Widget.Material3.BottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -117,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_margin="@dimen/margin_default"
         android:contentDescription="@string/button_select_date"
         android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="@id/bottomBar"
