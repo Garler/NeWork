@@ -19,10 +19,13 @@ jobs:
         with:
           java-version: 17
 
-      - name: Decode google-services.json
+      - name: Decode local.properties
         env:
-          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
-        run: echo $FIREBASE_SECRET > ./app/google-services.json
+            API_KEY: ${{ secrets.API_KEY }}
+            MAPKIT_API_KEY: ${{ secrets.MAPKIT_API_KEY }}
+        run: |
+            echo $API_KEY > ./local.properties
+            echo $MAPKIT_API_KEY >> ./local.properties
 
       - name: Build
         run: |
