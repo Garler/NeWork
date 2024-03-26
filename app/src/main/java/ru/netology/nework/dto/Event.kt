@@ -20,7 +20,7 @@ data class Event(
     val participatedByMe: Boolean,
     val attachment: Attachment? = null,
     val link: String? = null,
-    val users: Map<String, UserPreview>,
+    val users: Map<String, UserPreview>
 )
 
 enum class EventType {

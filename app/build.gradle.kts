@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.paging.common.ktx)
     ksp(libs.hilt.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.maps.mobile)
