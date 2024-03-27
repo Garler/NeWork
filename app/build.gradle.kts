@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.paging.common.ktx)
+    implementation(libs.androidx.credentials)
     ksp(libs.hilt.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.maps.mobile)

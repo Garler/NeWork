@@ -24,10 +24,10 @@ class AppAuth @Inject constructor(
     private val _authStateFlow: MutableStateFlow<AuthState>
 
     init {
-        val id = prefs.getLong(idKey, 0)
+        val id = prefs.getInt(idKey, 0)
         val token = prefs.getString(tokenKey, null)
 
-        if (id == 0L || token == null) {
+        if (id == 0 || token == null) {
             _authStateFlow = MutableStateFlow(AuthState())
             with(prefs.edit()) {
                 clear()
@@ -50,10 +50,10 @@ class AppAuth @Inject constructor(
         EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
 
     @Synchronized
-    fun setAuth(id: Long, token: String) {
+    fun setAuth(id: Int, token: String) {
         _authStateFlow.value = AuthState(id, token)
         with(prefs.edit()) {
-            putLong(idKey, id)
+            putInt(idKey, id)
             putString(tokenKey, token)
             apply()
         }
@@ -81,4 +81,4 @@ class AppAuth @Inject constructor(
 
 }
 
-data class AuthState(val id: Long = 0L, val token: String? = null)
+data class AuthState(val id: Int = 0, val token: String? = null)

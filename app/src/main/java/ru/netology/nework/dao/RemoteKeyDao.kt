@@ -13,10 +13,10 @@ interface RemoteKeyDao {
     suspend fun isEmpty(): Boolean
 
     @Query("SELECT MAX(id) FROM RemoteKeyEntity")
-    suspend fun max(): Long?
+    suspend fun max(): Int?
 
     @Query("SELECT MIN(id) FROM RemoteKeyEntity")
-    suspend fun min(): Long?
+    suspend fun min(): Int?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(key: RemoteKeyEntity)

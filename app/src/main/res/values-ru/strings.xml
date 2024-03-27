@@ -57,4 +57,6 @@
     <string name="online">Онлайн</string>
     <string name="offline">Оффлайн</string>
     <string name="mm_dd_yyyy_hh_mm">ММ/дд/гггг ЧЧ:мм</string>
+    <string name="user_registered">Пользователь уже зарегистрирован</string>
+    <string name="incorrect_photo_format">Некорректный формат фотографии</string>
 </resources>

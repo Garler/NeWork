@@ -58,4 +58,6 @@
     <string name="online">Online</string>
     <string name="offline">Offline</string>
     <string name="mm_dd_yyyy_hh_mm">MM/dd/yyyy HH:mm</string>
+    <string name="user_registered">The user is already registered</string>
+    <string name="incorrect_photo_format">Incorrect photo format</string>
 </resources>

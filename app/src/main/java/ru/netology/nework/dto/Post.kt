@@ -3,7 +3,7 @@ package ru.netology.nework.dto
 import java.time.OffsetDateTime
 
 data class Post(
-    val id: Int,
+    override val id: Int,
     val authorId: Int,
     val author: String,
     val authorJob: String? = null,
@@ -18,4 +18,4 @@ data class Post(
     val likedByMe: Boolean,
     val attachment: Attachment? = null,
     val users: Map<String, UserPreview>
-)
+) : FeedItem

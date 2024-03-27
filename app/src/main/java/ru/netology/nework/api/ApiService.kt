@@ -25,51 +25,51 @@ interface ApiService {
 
     @POST("api/{authorId}/wall/{id}/likes")
     suspend fun wallLikesPost(
-        @Path("authorId") authorId: Long,
+        @Path("authorId") authorId: Int,
         @Path("id") id: String,
     ): Response<Post>
 
     @DELETE("api/{authorId}/wall/{id}/likes")
     suspend fun wallUnLikesPost(
-        @Path("authorId") authorId: Long,
+        @Path("authorId") authorId: Int,
         @Path("id") id: String,
     ): Response<Post>
 
     @GET("api/{authorId}/wall")
     suspend fun wallGetAllPost(
-        @Path("authorId") authorId: Long,
+        @Path("authorId") authorId: Int,
     ): Response<List<Post>>
 
     @GET("api/{authorId}/wall/{id}/newer")
     suspend fun wallGetNewer(
-        @Path("authorId") authorId: Long,
-        @Path("id") id: Long,
+        @Path("authorId") authorId: Int,
+        @Path("id") id: Int,
     ): Response<List<Post>>
 
     @GET("api/{authorId}/wall/{id}/before")
     suspend fun wallGetBefore(
-        @Path("authorId") authorId: Long,
-        @Path("id") id: Long,
-        @Query("count") count: Long,
+        @Path("authorId") authorId: Int,
+        @Path("id") id: Int,
+        @Query("count") count: Int,
     ): Response<List<Post>>
 
     @GET("api/{authorId}/wall/{id}/after")
     suspend fun wallGetAfter(
-        @Path("authorId") authorId: Long,
-        @Path("id") id: Long,
-        @Query("count") count: Long,
+        @Path("authorId") authorId: Int,
+        @Path("id") id: Int,
+        @Query("count") count: Int,
     ): Response<List<Post>>
 
     @GET("api/{authorId}/wall/{id}")
     suspend fun wallGetPost(
-        @Path("authorId") authorId: Long,
-        @Path("id") id: Long,
+        @Path("authorId") authorId: Int,
+        @Path("id") id: Int,
     ): Response<Post>
 
     @GET("api/{authorId}/wall/latest")
     suspend fun wallGetLatest(
-        @Path("authorId") authorId: Long,
-        @Query("count") count: Long,
+        @Path("authorId") authorId: Int,
+        @Query("count") count: Int,
     ): Response<Post>
 
     //MyWall
@@ -89,29 +89,29 @@ interface ApiService {
 
     @GET("api/my/wall/{id}/newer")
     suspend fun myWallGetNewer(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<List<Post>>
 
     @GET("api/my/wall/{id}/before")
     suspend fun myWallGetBefore(
-        @Path("id") id: Long,
-        @Query("count") count: Long,
+        @Path("id") id: Int,
+        @Query("count") count: Int,
     ): Response<List<Post>>
 
     @GET("api/my/wall/{id}/after")
     suspend fun myWallGetAfter(
-        @Path("id") id: Long,
-        @Query("count") count: Long,
+        @Path("id") id: Int,
+        @Query("count") count: Int,
     ): Response<List<Post>>
 
     @GET("api/my/wall/{id}")
     suspend fun myWallGetPost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Post>
 
     @GET("api/my/wall/latest")
     suspend fun myWallGetLatest(
-        @Query("count") count: Long,
+        @Query("count") count: Int,
     ): Response<Post>
 
     //Users
@@ -145,7 +145,7 @@ interface ApiService {
 
     @GET("api/users/{id}")
     suspend fun usersGetUser(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<UserResponse>
 
     //Posts
@@ -160,37 +160,37 @@ interface ApiService {
 
     @POST("api/posts/{id}/likes")
     suspend fun postsLikePost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Post>
 
     @DELETE("api/posts/{id}/likes")
     suspend fun postsUnLikePost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Post>
 
     @GET("api/posts/{id}/newer")
-    suspend fun postsGetNewerPost(@Path("id") id: Long): Response<List<Post>>
+    suspend fun postsGetNewerPost(@Path("id") id: Int): Response<List<Post>>
 
     @GET("api/posts/{id}/before")
     suspend fun postsGetBeforePost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("api/posts/{id}/after")
     suspend fun postsGetAfterPost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
         @Query("count") count: Int
     ): Response<List<Post>>
 
-    @GET("api/post/{id}")
+    @GET("api/posts/{id}")
     suspend fun postsGetPost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Post>
 
     @DELETE("api/posts/{id}")
     suspend fun postsDeletePost(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Unit>
 
     @GET("api/posts/latest")
@@ -208,7 +208,7 @@ interface ApiService {
 
     @DELETE("api/my/jobs/{id}")
     suspend fun myJobDeleteJob(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Unit>
 
     //Media
@@ -231,49 +231,49 @@ interface ApiService {
 
     @POST("api/events/{id}/participants")
     suspend fun eventsSaveParticipantsEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Event>
 
     @DELETE("api/events/{id}/participants")
     suspend fun eventsDeleteParticipantsEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Event>
 
     @POST("api/events/{id}/likes")
     suspend fun eventsLikeEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Event>
 
     @DELETE("api/events/{id}/likes")
     suspend fun eventsUnLikeEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Event>
 
     @GET("api/events/{id}/newer")
     suspend fun eventsGetNewerEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<List<Event>>
 
     @GET("api/events/{id}/before")
     suspend fun eventsGetBeforeEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
         @Query("count") count: Int
     ): Response<List<Event>>
 
     @GET("api/events/{id}/after")
     suspend fun eventsGetAfterEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
         @Query("count") count: Int
     ): Response<List<Event>>
 
     @GET("api/events/{id}")
     suspend fun eventsGetEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Event>
 
     @DELETE("api/events/{id}")
     suspend fun eventsDeleteEvent(
-        @Path("id") id: Long,
+        @Path("id") id: Int,
     ): Response<Unit>
 
     @GET("api/events/latest")
@@ -283,7 +283,7 @@ interface ApiService {
 
     @GET("api/{userId}/jobs")
     suspend fun jobsGetAllJob(
-        @Path("userId") userId: Long,
+        @Path("userId") userId: Int,
     ): Response<List<Job>>
 
 }

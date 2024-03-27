@@ -1,5 +1,6 @@
 package ru.netology.nework.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,6 +13,9 @@ interface UserDao {
 
     @Query("SELECT * FROM UserEntity ORDER BY name ASC")
     fun getAll(): Flow<List<UserEntity>>
+
+    @Query("SELECT * FROM UserEntity ORDER BY id DESC")
+    fun getPagingSource(): PagingSource<Int, UserEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: UserEntity)

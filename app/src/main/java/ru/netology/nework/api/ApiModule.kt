@@ -11,15 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import ru.netology.nework.BuildConfig
 import ru.netology.nework.BuildConfig.API_KEY
+import ru.netology.nework.BuildConfig.BASE_URL
 import ru.netology.nework.auth.AppAuth
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
-    companion object {
-        private const val BASE_URL = "${BuildConfig.BASE_URL}api/"
-    }
 
     @Singleton
     @Provides

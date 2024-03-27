@@ -22,6 +22,7 @@ navigationFragment = "2.7.7"
 viewpager2 = "1.0.0"
 roomKtx = "2.6.1"
 pagingCommonKtx = "3.2.1"
+credentials = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,7 @@ androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", vers
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
