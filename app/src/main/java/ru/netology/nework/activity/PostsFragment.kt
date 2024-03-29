@@ -18,6 +18,7 @@ class PostsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostsBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 }

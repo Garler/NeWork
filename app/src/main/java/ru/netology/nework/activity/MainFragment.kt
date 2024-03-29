@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nework.R
@@ -27,7 +28,22 @@ class MainFragment : Fragment() {
         val childNavController = childNavHostFragment.navController
         binding.bottomNavigation.setupWithNavController(childNavController)
 
+
+//Переход на Логин
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.user -> {
+                    requireParentFragment()
+                        .findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+
         return binding.root
     }
 }
+
 

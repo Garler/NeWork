@@ -10,6 +10,7 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
+lifecycleLivedataKtx = "2.7.0"
 loggingInterceptor = "4.12.0"
 mapsMobile = "4.5.1-lite"
 material = "1.11.0"
@@ -23,11 +24,13 @@ viewpager2 = "1.0.0"
 roomKtx = "2.6.1"
 pagingCommonKtx = "3.2.1"
 credentials = "1.2.1"
+playServicesCastFramework = "21.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-core-splashscreen-v100 = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreenVersion" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragment" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
@@ -50,6 +53,7 @@ retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref =
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+play-services-cast-framework = { group = "com.google.android.gms", name = "play-services-cast-framework", version.ref = "playServicesCastFramework" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

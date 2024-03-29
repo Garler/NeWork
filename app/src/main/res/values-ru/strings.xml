@@ -59,4 +59,12 @@
     <string name="mm_dd_yyyy_hh_mm">ММ/дд/гггг ЧЧ:мм</string>
     <string name="user_registered">Пользователь уже зарегистрирован</string>
     <string name="incorrect_photo_format">Некорректный формат фотографии</string>
+    <string name="empty_login">Пустой логин</string>
+    <string name="empty_password">Пустой пароль</string>
+    <string name="unknown_error">Что-то пошло не так</string>
+    <string name="incorrect_password">Неверный пароль</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="user_already_register">Пользователь уже зарегистрирован</string>
+    <string name="empty_name">Пустое имя</string>
+    <string name="passwords_dont_match">Пароли не совпадают</string>
 </resources>
