@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.netology.nework.R
 import ru.netology.nework.databinding.FragmentLoginBinding
+import ru.netology.nework.error.ApiErrorAuth
 import ru.netology.nework.viewmodel.AuthViewModel
 
 @AndroidEntryPoint
@@ -61,7 +67,16 @@ class LoginFragment : Fragment() {
                 }
 
                 else -> {
-                    authViewModel.login(login, password)
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                            when (authViewModel.login(login, password)) {
+                                ApiErrorAuth.IncorrectPassword -> toastMsg(R.string.incorrect_password)
+                                ApiErrorAuth.UserNotFound -> toastMsg(R.string.user_not_found)
+                                ApiErrorAuth.Success -> findNavController().navigateUp()
+                                else -> toastMsg(R.string.unknown_error)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -72,7 +87,6 @@ class LoginFragment : Fragment() {
 
         authViewModel.dataAuth.observe(viewLifecycleOwner) { state ->
             val token = state.token.toString()
-
             if (state.id != 0 && token.isNotEmpty()) {
                 findNavController().navigateUp()
             }
@@ -88,4 +102,11 @@ class LoginFragment : Fragment() {
         return login.isNotEmpty() && password.isNotEmpty()
     }
 
+    private fun toastMsg(msg: Int) {
+        Toast.makeText(
+            context,
+            msg,
+            Toast.LENGTH_LONG
+        ).show()
+    }
 }

@@ -64,7 +64,6 @@
     <string name="unknown_error">Что-то пошло не так</string>
     <string name="incorrect_password">Неверный пароль</string>
     <string name="user_not_found">Пользователь не найден</string>
-    <string name="user_already_register">Пользователь уже зарегистрирован</string>
     <string name="empty_name">Пустое имя</string>
     <string name="passwords_dont_match">Пароли не совпадают</string>
 </resources>

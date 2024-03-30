@@ -1,21 +1,19 @@
 package ru.netology.nework.repository
 
-import kotlinx.coroutines.flow.StateFlow
-import ru.netology.nework.auth.AuthState
 import ru.netology.nework.dto.UserResponse
+import ru.netology.nework.error.ApiErrorAuth
 import ru.netology.nework.model.AttachmentModel
 
 interface Repository {
-    val dataAuth: StateFlow<AuthState>
 
     suspend fun registration(
         login: String,
         name: String,
         pass: String,
         attachmentModel: AttachmentModel?
-    )
+    ): ApiErrorAuth
 
-    suspend fun login(login: String, pass: String)
+    suspend fun login(login: String, pass: String): ApiErrorAuth
     fun logout()
 
     suspend fun getUsers()

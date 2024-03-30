@@ -65,7 +65,6 @@
     <string name="unknown_error">Unknown error</string>
     <string name="incorrect_password">Incorrect password</string>
     <string name="user_not_found">User not found</string>
-    <string name="user_already_register">User already register</string>
     <string name="empty_name">Empty name</string>
     <string name="passwords_dont_match">Passwords don\'t match</string>
 </resources>
