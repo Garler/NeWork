@@ -21,8 +21,8 @@
 
 ## Скриншоты
 
-### Стартовый экран. Экраны входа и регистрации.
-<img src="./.github/screenshots/start.png" width="200" />
+### Экраны входа и регистрации.
+<img src="./screenshots/login.png" width="200" /> <img src="./screenshots/registration.png" width="200" />
 
 ### Экраны пользователя.
 
