@@ -1,8 +1,18 @@
 package ru.netology.nework.repository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.netology.nework.api.ApiService
 import ru.netology.nework.auth.AppAuth
+import ru.netology.nework.dao.UserDao
+import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.UserResponse
+import ru.netology.nework.entity.UserEntity
 import ru.netology.nework.error.ApiErrorAuth
 import ru.netology.nework.error.NetworkError
 import ru.netology.nework.error.UnknownError
@@ -12,10 +22,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@OptIn(ExperimentalPagingApi::class)
 class RepositoryImpl @Inject constructor(
     private val appAuth: AppAuth,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val userDao: UserDao,
+    userRemoteMediator: UserRemoteMediator
 ) : Repository {
+
+    override val dataUser: Flow<PagingData<FeedItem>> =
+        Pager(
+            config = PagingConfig(pageSize = 4, enablePlaceholders = false),
+            pagingSourceFactory = { userDao.getPagingSource() },
+            remoteMediator = userRemoteMediator
+        ).flow.map {
+            it.map(UserEntity::toDto)
+        }
 
     override suspend fun registration(
         login: String,
