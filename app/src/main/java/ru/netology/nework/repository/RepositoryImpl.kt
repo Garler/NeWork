@@ -13,6 +13,8 @@ import ru.netology.nework.dao.UserDao
 import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.entity.UserEntity
+import ru.netology.nework.entity.toEntity
+import ru.netology.nework.error.ApiError
 import ru.netology.nework.error.ApiErrorAuth
 import ru.netology.nework.error.NetworkError
 import ru.netology.nework.error.UnknownError
@@ -93,11 +95,35 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUsers() {
-        TODO("Not yet implemented")
+        try {
+            userDao.getAll()
+            val response = apiService.usersGetAllUser()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            userDao.insert(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun getUser(id: Int): UserResponse {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.usersGetUser(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetworkError
+
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
 }

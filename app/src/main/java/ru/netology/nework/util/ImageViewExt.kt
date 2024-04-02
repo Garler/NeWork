@@ -4,7 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import ru.netology.nework.R
 
-fun ImageView.loadAvatar(url: String) {
+fun ImageView.loadAvatar(url: String?) {
     Glide.with(this)
         .load(url)
         .placeholder(R.drawable.ic_loading_100dp)
