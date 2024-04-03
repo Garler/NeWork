@@ -12,7 +12,7 @@ data class Event(
     val datetime: OffsetDateTime,
     val published: OffsetDateTime,
     val coords: Coords? = null,
-    val type: EventType,
+    val type: EventType = EventType.OFFLINE,
     val likeOwnerIds: List<Int>,
     val likedByMe: Boolean,
     val speakerIds: List<Int>,
@@ -24,7 +24,7 @@ data class Event(
     val ownedByMe: Boolean = false,
 ) : FeedItem
 
-enum class EventType {
-    OFFLINE,
-    ONLINE,
+sealed class EventType {
+    data object OFFLINE : EventType()
+    data object ONLINE : EventType()
 }

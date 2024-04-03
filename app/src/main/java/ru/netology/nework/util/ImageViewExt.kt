@@ -8,7 +8,7 @@ fun ImageView.loadAvatar(url: String?) {
     Glide.with(this)
         .load(url)
         .placeholder(R.drawable.ic_loading_100dp)
-        .error(R.drawable.ic_error_100dp)
+        .error(R.drawable.ic_account_circle_24)
         .timeout(10_000)
         .circleCrop()
         .into(this)
