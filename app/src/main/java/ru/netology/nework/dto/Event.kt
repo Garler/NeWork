@@ -1,5 +1,7 @@
 package ru.netology.nework.dto
 
+import java.time.OffsetDateTime
+
 data class Event(
     override val id: Int,
     val authorId: Int,
@@ -7,8 +9,8 @@ data class Event(
     val authorJob: String? = null,
     val authorAvatar: String? = null,
     val content: String,
-    val datetime: String,
-    val published: String,
+    val datetime: OffsetDateTime,
+    val published: OffsetDateTime,
     val coords: Coords? = null,
     val type: EventType,
     val likeOwnerIds: List<Int>,
@@ -18,10 +20,11 @@ data class Event(
     val participatedByMe: Boolean,
     val attachment: Attachment? = null,
     val link: String? = null,
-    val users: Map<String, UserPreview>
+    val users: Map<String, UserPreview>,
+    val ownedByMe: Boolean = false,
 ) : FeedItem
 
 enum class EventType {
     OFFLINE,
-    ONLINE
+    ONLINE,
 }

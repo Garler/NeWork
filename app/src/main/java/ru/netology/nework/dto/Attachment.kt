@@ -2,10 +2,10 @@ package ru.netology.nework.dto
 
 data class Attachment(
     val url: String,
-    val type: AttachmentType
+    val type: AttachmentType,
 )
 
 enum class AttachmentType {
     IMAGE,
-    VIDEO
+    VIDEO,
 }
