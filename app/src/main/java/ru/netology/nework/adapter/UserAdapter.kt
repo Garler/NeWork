@@ -10,18 +10,18 @@ import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.util.loadAvatar
 
-interface OnInteractionListener {
+interface OnUserInteractionListener {
     fun onCardUser(feedItem: FeedItem)
     fun onSelectUser(userResponse: UserResponse)
 }
 
 class UserAdapter(
-    private val onInteractionListener: OnInteractionListener,
+    private val onUserInteractionListener: OnUserInteractionListener,
 
 ) : PagingDataAdapter<FeedItem, UserViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = CardUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UserViewHolder(binding, onInteractionListener)
+        return UserViewHolder(binding, onUserInteractionListener)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -32,7 +32,7 @@ class UserAdapter(
 
 class UserViewHolder(
     private val binding: CardUserBinding,
-    private val onInteractionListener: OnInteractionListener
+    private val onUserInteractionListener: OnUserInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(user: UserResponse) {
         with(binding) {
@@ -42,11 +42,11 @@ class UserViewHolder(
             authorAvatar.loadAvatar(user.avatar)
 
             checkBox.setOnClickListener {
-                onInteractionListener.onSelectUser(user)
+                onUserInteractionListener.onSelectUser(user)
             }
 
             cardUser.setOnClickListener {
-                onInteractionListener.onCardUser(user)
+                onUserInteractionListener.onCardUser(user)
             }
         }
     }

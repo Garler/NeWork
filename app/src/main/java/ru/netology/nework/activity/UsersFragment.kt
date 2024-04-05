@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nework.R
-import ru.netology.nework.adapter.OnInteractionListener
+import ru.netology.nework.adapter.OnUserInteractionListener
 import ru.netology.nework.adapter.UserAdapter
 import ru.netology.nework.databinding.FragmentUsersBinding
 import ru.netology.nework.dto.FeedItem
@@ -29,13 +29,13 @@ class UsersFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val binding = FragmentUsersBinding.inflate(inflater, container, false)
         val parentNavController = parentFragment?.parentFragment?.findNavController()
         val selectedUsers = mutableListOf<Int>()
 
-        val userAdapter = UserAdapter(object : OnInteractionListener {
+        val userAdapter = UserAdapter(object : OnUserInteractionListener {
 
             override fun onSelectUser(userResponse: UserResponse) {
                 selectedUsers.add(userResponse.id)
@@ -67,7 +67,8 @@ class UsersFragment : Fragment() {
                         binding.root,
                         R.string.connection_error,
                         Snackbar.LENGTH_LONG
-                    ).show()
+                    ).setAnchorView(R.id.bottom_navigation)
+                        .show()
                 }
             }
         }

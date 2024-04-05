@@ -1,6 +1,5 @@
 package ru.netology.nework.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -12,7 +11,9 @@ import java.time.OffsetDateTime
 
 @Entity
 @TypeConverters(
+    CoordsConverter::class,
     MentionIdsConverter::class,
+    AttachmentConverter::class,
     UsersConverter::class
 )
 data class PostEntity(
@@ -24,14 +25,12 @@ data class PostEntity(
     val authorAvatar: String? = null,
     val content: String,
     val published: String,
-    @Embedded
     val coords: Coords? = null,
     val link: String? = null,
     val mentionIds: List<Int>,
     val mentionedMe: Boolean,
     val likeOwnerIds: List<Int>,
     val likedByMe: Boolean,
-    @Embedded
     val attachment: Attachment? = null,
     val users: Map<String, UserPreview>,
     val ownedByMe: Boolean = false,

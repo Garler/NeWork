@@ -14,7 +14,7 @@ fun ImageView.loadAvatar(url: String?) {
         .into(this)
 }
 
-fun ImageView.load(url: String) {
+fun ImageView.loadImage(url: String) {
     Glide.with(this)
         .load(url)
         .placeholder(R.drawable.ic_loading_100dp)
