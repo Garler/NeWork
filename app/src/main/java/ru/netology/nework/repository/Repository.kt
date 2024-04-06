@@ -12,6 +12,7 @@ import ru.netology.nework.model.AttachmentModel
 
 interface Repository {
     val dataPost: Flow<PagingData<FeedItem>>
+    val dataEvent: Flow<PagingData<FeedItem>>
     val dataUser: Flow<PagingData<FeedItem>>
 
     suspend fun registration(

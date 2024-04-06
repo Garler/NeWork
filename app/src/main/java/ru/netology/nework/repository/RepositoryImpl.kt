@@ -12,6 +12,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import ru.netology.nework.api.ApiService
 import ru.netology.nework.auth.AppAuth
+import ru.netology.nework.dao.EventDao
 import ru.netology.nework.dao.PostDao
 import ru.netology.nework.dao.UserDao
 import ru.netology.nework.dto.Attachment
@@ -21,6 +22,7 @@ import ru.netology.nework.dto.Job
 import ru.netology.nework.dto.Media
 import ru.netology.nework.dto.Post
 import ru.netology.nework.dto.UserResponse
+import ru.netology.nework.entity.EventEntity
 import ru.netology.nework.entity.PostEntity
 import ru.netology.nework.entity.UserEntity
 import ru.netology.nework.entity.toEntity
@@ -43,6 +45,8 @@ class RepositoryImpl @Inject constructor(
     userRemoteMediator: UserRemoteMediator,
     private val postDao: PostDao,
     postRemoteMediator: PostRemoteMediator,
+    private val eventDao: EventDao,
+    eventRemoteMediator: EventRemoteMediator,
 ) : Repository {
 
     override val dataUser: Flow<PagingData<FeedItem>> =
@@ -63,7 +67,14 @@ class RepositoryImpl @Inject constructor(
             it.map(PostEntity::toDto)
         }
 
-
+    override val dataEvent: Flow<PagingData<FeedItem>> = Pager(
+        config = PagingConfig(pageSize = 4, enablePlaceholders = false),
+        pagingSourceFactory = { eventDao.getPagingSource() },
+        remoteMediator = eventRemoteMediator
+    ).flow
+        .map {
+            it.map(EventEntity::toDto)
+        }
 
     override suspend fun registration(
         login: String,
@@ -244,19 +255,93 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveEvent(event: Event) {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.eventsSaveEvent(event)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            eventDao.insert(EventEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun saveEventWithAttachment(event: Event, attachmentModel: AttachmentModel) {
-        TODO("Not yet implemented")
+        try {
+            val mediaResponse = saveMedia(attachmentModel.file)
+            if (!mediaResponse.isSuccessful) {
+                throw ApiError(mediaResponse.code(), mediaResponse.message())
+            }
+            val media = mediaResponse.body() ?: throw ApiError(
+                mediaResponse.code(),
+                mediaResponse.message()
+            )
+
+            val response = apiService.eventsSaveEvent(
+                event.copy(
+                    attachment = Attachment(
+                        media.url,
+                        attachmentModel.attachmentType
+                    )
+                )
+            )
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            eventDao.insert(EventEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun deleteEvent(id: Int) {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.eventsDeleteEvent(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            eventDao.removeById(id)
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun likeEvent(event: Event) {
-        TODO("Not yet implemented")
+        try {
+            val response = when (event.likedByMe) {
+                true -> {
+                    apiService.eventsUnLikeEvent(event.id)
+                }
+
+                else -> {
+                    apiService.eventsLikeEvent(event.id)
+                }
+            }
+
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            eventDao.insert(EventEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun getMyJobs() {

@@ -19,7 +19,6 @@ import ru.netology.nework.R
 import ru.netology.nework.adapter.OnUserInteractionListener
 import ru.netology.nework.adapter.UserAdapter
 import ru.netology.nework.databinding.FragmentUsersBinding
-import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.viewmodel.UserViewModel
 
@@ -41,7 +40,7 @@ class UsersFragment : Fragment() {
                 selectedUsers.add(userResponse.id)
             }
 
-            override fun onCardUser(feedItem: FeedItem) {
+            override fun onCardUser(userResponse: UserResponse) {
                 parentNavController?.navigate(
                     R.id.action_mainFragment_to_detailUserFragment,
                 )

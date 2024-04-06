@@ -11,7 +11,7 @@ import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.util.loadAvatar
 
 interface OnUserInteractionListener {
-    fun onCardUser(feedItem: FeedItem)
+    fun onCardUser(userResponse: UserResponse)
     fun onSelectUser(userResponse: UserResponse)
 }
 

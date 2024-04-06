@@ -1,6 +1,5 @@
 package ru.netology.nework.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -13,7 +12,9 @@ import java.time.OffsetDateTime
 
 @Entity
 @TypeConverters(
+    CoordsConverter::class,
     MentionIdsConverter::class,
+    AttachmentConverter::class,
     UsersConverter::class
 )
 data class EventEntity(
@@ -26,16 +27,13 @@ data class EventEntity(
     val content: String,
     val datetime: String,
     val published: String,
-    @Embedded
     val coords: Coords? = null,
-    @Embedded
     val type: EventType = EventType.OFFLINE,
     val likeOwnerIds: List<Int>,
     val likedByMe: Boolean,
     val speakerIds: List<Int>,
     val participantsIds: List<Int>,
     val participatedByMe: Boolean,
-    @Embedded
     val attachment: Attachment? = null,
     val link: String? = null,
     val users: Map<String, UserPreview>,

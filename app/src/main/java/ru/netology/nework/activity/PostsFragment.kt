@@ -1,5 +1,6 @@
 package ru.netology.nework.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,6 @@ import ru.netology.nework.adapter.PostAdapter
 import ru.netology.nework.adapter.PostViewHolder
 import ru.netology.nework.auth.AuthState
 import ru.netology.nework.databinding.FragmentPostsBinding
-import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.Post
 import ru.netology.nework.util.AppConst
 import ru.netology.nework.viewmodel.AuthViewModel
@@ -52,34 +52,40 @@ class PostsFragment : Fragment() {
         val userId = arguments?.getInt(AppConst.USER_ID)
 
         val postAdapter = PostAdapter(object : OnPostInteractionListener {
-            override fun onLikePost(feedItem: FeedItem) {
+            override fun onLikePost(post: Post) {
                 if (token?.id != 0 && token?.id.toString().isNotEmpty()) {
-                    postViewModel.likePost(feedItem as Post)
+                    postViewModel.likePost(post)
                 } else {
                     parentNavController?.navigate(R.id.action_mainFragment_to_loginFragment)
                 }
             }
 
-            override fun onRemovePost(feedItem: FeedItem) {
-                postViewModel.removePost(feedItem as Post)
+            override fun onRemovePost(post: Post) {
+                postViewModel.removePost(post)
             }
 
-            override fun onEditPost(feedItem: FeedItem) {
-                feedItem as Post
-                postViewModel.editPost(feedItem)
+            override fun onEditPost(post: Post) {
+                postViewModel.editPost(post)
                 parentNavController?.navigate(
                     R.id.action_mainFragment_to_newPostFragment,
-                    bundleOf(AppConst.EDIT_POST to feedItem.content)
+                    bundleOf(AppConst.EDIT_POST to post.content)
                 )
             }
 
-            override fun onCardPost(feedItem: FeedItem) {
-                postViewModel.openPost(feedItem as Post)
+            override fun onCardPost(post: Post) {
+                postViewModel.openPost(post)
                 parentNavController?.navigate(R.id.action_mainFragment_to_detailPostFragment)
             }
 
-            override fun onSharePost(feedItem: FeedItem) {
-                TODO("Not yet implemented")
+            override fun onSharePost(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.share))
+                startActivity(shareIntent)
             }
         })
 

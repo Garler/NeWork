@@ -24,7 +24,7 @@ data class Event(
     val ownedByMe: Boolean = false,
 ) : FeedItem
 
-sealed class EventType {
-    data object OFFLINE : EventType()
-    data object ONLINE : EventType()
+enum class EventType {
+    OFFLINE,
+    ONLINE,
 }

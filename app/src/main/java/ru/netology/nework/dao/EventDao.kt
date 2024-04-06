@@ -20,10 +20,10 @@ interface EventDao {
     suspend fun isEmpty(): Boolean
 
     @Query("UPDATE EventEntity SET likedByMe = 1 WHERE id = :id AND likedByMe = 0")
-    suspend fun likeById(id: Long)
+    suspend fun likeById(id: Int)
 
     @Query("UPDATE EventEntity SET likedByMe = 0 WHERE id = :id AND likedByMe = 1")
-    suspend fun unlikeById(id: Long)
+    suspend fun unlikeById(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(event: EventEntity)
@@ -32,7 +32,7 @@ interface EventDao {
     suspend fun insert(events: List<EventEntity>)
 
     @Query("DELETE FROM EventEntity WHERE id = :id")
-    suspend fun removeById(id: Long)
+    suspend fun removeById(id: Int)
 
     @Query("DELETE FROM EventEntity")
     suspend fun removeAll()

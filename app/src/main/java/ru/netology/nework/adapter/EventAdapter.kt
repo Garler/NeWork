@@ -11,61 +11,67 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nework.R
-import ru.netology.nework.databinding.CardPostBinding
+import ru.netology.nework.databinding.CardEventBinding
 import ru.netology.nework.dto.AttachmentType
 import ru.netology.nework.dto.DiffCallback
+import ru.netology.nework.dto.Event
+import ru.netology.nework.dto.EventType
 import ru.netology.nework.dto.FeedItem
-import ru.netology.nework.dto.Post
 import ru.netology.nework.util.loadAvatar
 import ru.netology.nework.util.loadImage
 import java.time.format.DateTimeFormatter
 
-interface OnPostInteractionListener {
-    fun onLikePost(post: Post)
-    fun onRemovePost(post: Post)
-    fun onEditPost(post: Post)
-    fun onCardPost(post: Post)
-    fun onSharePost(post: Post)
+interface OnEventInteractionListener {
+    fun onLikeEvent(event: Event)
+    fun onRemoveEvent(event: Event)
+    fun onEditEvent(event: Event)
+    fun onCardEvent(event: Event)
+    fun onShareEvent(event: Event)
 }
 
-class PostAdapter(
-    private val onPostInteractionListener: OnPostInteractionListener,
-) : PagingDataAdapter<FeedItem, PostViewHolder>(DiffCallback()) {
+class EventAdapter(
+    private val onEventInteractionListener: OnEventInteractionListener,
+) : PagingDataAdapter<FeedItem, EventViewHolder>(DiffCallback()) {
 
-    override fun onViewRecycled(holder: PostViewHolder) {
+    override fun onViewRecycled(holder: EventViewHolder) {
         super.onViewRecycled(holder)
         holder.releasePlayer()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding =
-            CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onPostInteractionListener, parent.context)
+            CardEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return EventViewHolder(binding, onEventInteractionListener, parent.context)
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val item = getItem(position) as Post
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        val item = getItem(position) as Event
         holder.bind(item)
     }
 }
 
-class PostViewHolder(
-    private val binding: CardPostBinding,
-    private val onPostInteractionListener: OnPostInteractionListener,
+class EventViewHolder(
+    private val binding: CardEventBinding,
+    private val onEventInteractionListener: OnEventInteractionListener,
     private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var player: ExoPlayer? = null
 
-    fun bind(post: Post) {
+    fun bind(event: Event) {
         with(binding) {
-            authorAvatar.loadAvatar(post.authorAvatar)
-            authorName.text = post.author
+            authorAvatar.loadAvatar(event.authorAvatar)
+            authorName.text = event.author
             datePublication.text =
-                post.published.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
-            textContent.text = post.content
-            buttonLike.text = post.likeOwnerIds.size.toString()
-            buttonLike.isChecked = post.likedByMe
+                event.published.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+            textContent.text = event.content
+            eventType.text = event.type.toString()
+            eventDate.text = event.datetime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+            buttonLike.text = event.likeOwnerIds.size.toString()
+            buttonLike.isChecked = event.likedByMe
+
+            buttonPlayEvent.isVisible = event.type == EventType.ONLINE
+            buttonOption.isVisible = event.ownedByMe
 
             fun setAttachmentVisibility(
                 imageContentVisible: Boolean = false,
@@ -75,15 +81,15 @@ class PostViewHolder(
                 videoContent.isVisible = videoContentVisible
             }
 
-            when (post.attachment?.type) {
+            when (event.attachment?.type) {
                 AttachmentType.IMAGE -> {
-                    imageContent.loadImage(post.attachment.url)
+                    imageContent.loadImage(event.attachment.url)
                     setAttachmentVisibility(imageContentVisible = true)
                 }
 
                 AttachmentType.VIDEO -> {
                     player = ExoPlayer.Builder(context).build().apply {
-                        setMediaItem(MediaItem.fromUri(post.attachment.url))
+                        setMediaItem(MediaItem.fromUri(event.attachment.url))
                     }
                     videoContent.player = player
                     setAttachmentVisibility(videoContentVisible = true)
@@ -95,27 +101,20 @@ class PostViewHolder(
                 }
             }
 
-            buttonLike.setOnClickListener {
-                onPostInteractionListener.onLikePost(post)
-            }
+            buttonUsers.text = event.speakerIds.size.toString()
 
-            buttonShare.setOnClickListener {
-                onPostInteractionListener.onSharePost(post)
-            }
-
-            buttonOption.isVisible = post.ownedByMe
             buttonOption.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_content_menu)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.delete -> {
-                                onPostInteractionListener.onRemovePost(post)
+                                onEventInteractionListener.onRemoveEvent(event)
                                 true
                             }
 
                             R.id.edit -> {
-                                onPostInteractionListener.onEditPost(post)
+                                onEventInteractionListener.onEditEvent(event)
                                 true
                             }
 
@@ -127,8 +126,16 @@ class PostViewHolder(
                     .show()
             }
 
-            binding.cardPost.setOnClickListener {
-                onPostInteractionListener.onCardPost(post)
+            buttonLike.setOnClickListener {
+                onEventInteractionListener.onLikeEvent(event)
+            }
+
+            buttonShare.setOnClickListener {
+                onEventInteractionListener.onShareEvent(event)
+            }
+
+            cardEvent.setOnClickListener {
+                onEventInteractionListener.onCardEvent(event)
             }
         }
     }
