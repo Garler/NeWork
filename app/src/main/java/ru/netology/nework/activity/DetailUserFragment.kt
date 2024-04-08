@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -60,6 +61,7 @@ class DetailUserFragment : Fragment() {
 
         userViewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
+                binding.userPhoto.isVisible = user.avatar != null
                 binding.userPhoto.loadImage(user.avatar)
                 binding.topAppBar.title = buildString {
                     append(user.name + " / " + user.login)
