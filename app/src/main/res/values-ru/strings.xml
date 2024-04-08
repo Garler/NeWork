@@ -16,8 +16,8 @@
     <string name="likers">Лайки</string>
     <string name="mentioned">Упомянутые пользователи</string>
     <string name="event">Событие</string>
-    <string name="wall">Публикации</string>
-    <string name="jobs">Места работы</string>
+    <string name="wall">Посты</string>
+    <string name="jobs">Опыт работы</string>
     <string name="new_post">Новый пост</string>
     <string name="whats_news">Что нового?</string>
     <string name="remove">Удалить</string>
@@ -67,4 +67,8 @@
     <string name="empty_name">Пустое имя</string>
     <string name="passwords_dont_match">Пароли не совпадают</string>
     <string name="connection_error">Ошибка соединения</string>
+    <string name="button_add_job">Добавить место работы</string>
+    <string name="login_enter">Войти</string>
+    <string name="login_register">Зарегистрироваться</string>
+    <string name="present_time">НВ</string>
 </resources>

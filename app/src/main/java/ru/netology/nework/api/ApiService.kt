@@ -196,6 +196,13 @@ interface ApiService {
     @GET("api/posts/latest")
     suspend fun postsGetLatestPage(@Query("count") count: Int): Response<List<Post>>
 
+    //Jobs
+
+    @GET("api/{userId}/jobs")
+    suspend fun jobsGetAllJob(
+        @Path("userId") userId: Int,
+    ): Response<List<Job>>
+
     //MyJob
 
     @GET("api/my/jobs")
@@ -278,12 +285,5 @@ interface ApiService {
 
     @GET("api/events/latest")
     suspend fun eventsGetLatestPageEvent(@Query("count") count: Int): Response<List<Event>>
-
-    //Jobs
-
-    @GET("api/{userId}/jobs")
-    suspend fun jobsGetAllJob(
-        @Path("userId") userId: Int,
-    ): Response<List<Job>>
 
 }

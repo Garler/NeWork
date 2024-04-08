@@ -4,44 +4,58 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nework.R
+import ru.netology.nework.auth.AuthState
 import ru.netology.nework.databinding.FragmentMainBinding
+import ru.netology.nework.util.AppConst
+import ru.netology.nework.viewmodel.AuthViewModel
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        var token: AuthState? = null
+        authViewModel.dataAuth.observe(viewLifecycleOwner) { state ->
+            token = state
+        }
 
         val childNavHostFragment =
             childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val childNavController = childNavHostFragment.navController
         binding.bottomNavigation.setupWithNavController(childNavController)
 
-
-//Переход на Логин
-        binding.topAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
+        binding.topAppBar.setOnMenuItemClickListener { menu ->
+            when (menu.itemId) {
                 R.id.user -> {
-                    requireParentFragment()
-                        .findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+                    if (token?.id != 0 && token?.id.toString().isNotEmpty()) {
+                        findNavController().navigate(
+                            R.id.action_mainFragment_to_detailUserFragment,
+                            bundleOf(AppConst.USER_ID to token?.id)
+                        )
+                    } else {
+                        findNavController().navigate(R.id.action_mainFragment_to_loginFragment)
+                    }
                     true
                 }
+
                 else -> false
             }
         }
-
-
         return binding.root
     }
 }

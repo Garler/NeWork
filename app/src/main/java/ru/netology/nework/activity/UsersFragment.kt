@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +21,7 @@ import ru.netology.nework.adapter.OnUserInteractionListener
 import ru.netology.nework.adapter.UserAdapter
 import ru.netology.nework.databinding.FragmentUsersBinding
 import ru.netology.nework.dto.UserResponse
+import ru.netology.nework.util.AppConst
 import ru.netology.nework.viewmodel.UserViewModel
 
 @AndroidEntryPoint
@@ -43,6 +45,7 @@ class UsersFragment : Fragment() {
             override fun onCardUser(userResponse: UserResponse) {
                 parentNavController?.navigate(
                     R.id.action_mainFragment_to_detailUserFragment,
+                    bundleOf(AppConst.USER_ID to userResponse.id)
                 )
             }
         })

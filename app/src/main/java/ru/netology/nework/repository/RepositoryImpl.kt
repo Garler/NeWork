@@ -1,11 +1,14 @@
 package ru.netology.nework.repository
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -13,6 +16,7 @@ import retrofit2.Response
 import ru.netology.nework.api.ApiService
 import ru.netology.nework.auth.AppAuth
 import ru.netology.nework.dao.EventDao
+import ru.netology.nework.dao.JobDao
 import ru.netology.nework.dao.PostDao
 import ru.netology.nework.dao.UserDao
 import ru.netology.nework.dto.Attachment
@@ -25,6 +29,7 @@ import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.entity.EventEntity
 import ru.netology.nework.entity.PostEntity
 import ru.netology.nework.entity.UserEntity
+import ru.netology.nework.entity.toDto
 import ru.netology.nework.entity.toEntity
 import ru.netology.nework.error.ApiError
 import ru.netology.nework.error.ApiErrorAuth
@@ -47,6 +52,7 @@ class RepositoryImpl @Inject constructor(
     postRemoteMediator: PostRemoteMediator,
     private val eventDao: EventDao,
     eventRemoteMediator: EventRemoteMediator,
+    private val jobDao: JobDao,
 ) : Repository {
 
     override val dataUser: Flow<PagingData<FeedItem>> =
@@ -76,11 +82,17 @@ class RepositoryImpl @Inject constructor(
             it.map(EventEntity::toDto)
         }
 
+    override val dataJob: Flow<List<Job>> = jobDao.getAllJobs()
+        .map { it.toDto() }
+        .flowOn(Dispatchers.Default)
+
+    private val _dataJob = MutableLiveData<List<Job>>()
+
     override suspend fun registration(
         login: String,
         name: String,
         pass: String,
-        attachmentModel: AttachmentModel?
+        attachmentModel: AttachmentModel?,
     ): ApiErrorAuth {
         try {
             val response = apiService.usersRegistration(login, pass, name)
@@ -93,6 +105,7 @@ class RepositoryImpl @Inject constructor(
                     }
                     ApiErrorAuth.Success
                 }
+
                 else -> ApiErrorAuth.UnknownError
             }
         } catch (e: IOException) {
@@ -104,7 +117,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(login: String, pass: String): ApiErrorAuth {
-          try {
+        try {
             val response = apiService.usersAuthentication(login, pass)
             return when (response.code()) {
                 404 -> ApiErrorAuth.UserNotFound
@@ -115,6 +128,7 @@ class RepositoryImpl @Inject constructor(
                     }
                     ApiErrorAuth.Success
                 }
+
                 else -> ApiErrorAuth.UnknownError
             }
         } catch (e: IOException) {
@@ -345,19 +359,69 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMyJobs() {
-        TODO("Not yet implemented")
+        try {
+            jobDao.getAllJobs()
+            val response = apiService.myJobGetAllJob()
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            jobDao.insertListJobs(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun getJobs(userId: Int) {
-        TODO("Not yet implemented")
+        try {
+            jobDao.clear()
+            val response = apiService.jobsGetAllJob(userId)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            _dataJob.postValue(body)
+            jobDao.insertListJobs(body.toEntity())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun saveJob(job: Job) {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.myJobSaveJob(job)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            response.body() ?: throw ApiError(response.code(), response.message())
+
+            getMyJobs()
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
     override suspend fun deleteJob(id: Int) {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.myJobDeleteJob(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            _dataJob.value = _dataJob.value?.filter { it.id != id }
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
 }

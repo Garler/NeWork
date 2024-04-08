@@ -68,4 +68,8 @@
     <string name="empty_name">Empty name</string>
     <string name="passwords_dont_match">Passwords don\'t match</string>
     <string name="connection_error">Connection error</string>
+    <string name="button_add_job">Add job</string>
+    <string name="login_enter">Login</string>
+    <string name="login_register">Login</string>
+    <string name="present_time">PT</string>
 </resources>

@@ -14,6 +14,7 @@ interface Repository {
     val dataPost: Flow<PagingData<FeedItem>>
     val dataEvent: Flow<PagingData<FeedItem>>
     val dataUser: Flow<PagingData<FeedItem>>
+    val dataJob: Flow<List<Job>>
 
     suspend fun registration(
         login: String,

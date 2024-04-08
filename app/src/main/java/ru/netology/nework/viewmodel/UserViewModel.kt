@@ -14,14 +14,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.UserResponse
-import ru.netology.nework.repository.RepositoryImpl
+import ru.netology.nework.repository.Repository
 import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val repository: RepositoryImpl,
+    private val repository: Repository,
 ) : ViewModel() {
-
     val dataUser: Flow<PagingData<FeedItem>> =
         repository.dataUser.map {
             it.map { feedItem ->

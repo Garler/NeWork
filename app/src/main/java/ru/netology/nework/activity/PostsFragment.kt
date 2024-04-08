@@ -94,8 +94,8 @@ class PostsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 postViewModel.dataPost.collectLatest {
                     if (userId != null) {
-                        postAdapter.submitData(it.filter { feedItem ->
-                            feedItem is Post && feedItem.authorId == userId
+                        postAdapter.submitData(it.filter { post ->
+                            post is Post && post.authorId == userId
                         })
                     } else {
                         postAdapter.submitData(it)

@@ -11,16 +11,16 @@ import ru.netology.nework.entity.JobEntity
 interface JobDao {
 
     @Query("SELECT * FROM JobEntity ORDER BY start DESC")
-    fun getAll(): Flow<List<JobEntity>>
+    fun getAllJobs(): Flow<List<JobEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(job: JobEntity)
+    suspend fun insertJob(job: JobEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(jobs: List<JobEntity>)
+    suspend fun insertListJobs(jobs: List<JobEntity>)
 
     @Query("DELETE FROM JobEntity WHERE id = :id")
-    suspend fun removeById(id: Int)
+    suspend fun deleteJobById(id: Int)
 
     @Query("DELETE FROM JobEntity")
     suspend fun clear()
