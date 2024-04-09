@@ -12,7 +12,7 @@ data class Event(
     val datetime: OffsetDateTime,
     val published: OffsetDateTime,
     val coords: Coords? = null,
-    val type: EventType = EventType.OFFLINE,
+    val type: EventType = EventType.ONLINE,
     val likeOwnerIds: List<Int>,
     val likedByMe: Boolean,
     val speakerIds: List<Int>,

@@ -28,7 +28,7 @@ data class EventEntity(
     val datetime: String,
     val published: String,
     val coords: Coords? = null,
-    val type: EventType = EventType.OFFLINE,
+    val type: EventType = EventType.ONLINE,
     val likeOwnerIds: List<Int>,
     val likedByMe: Boolean,
     val speakerIds: List<Int>,
@@ -37,7 +37,7 @@ data class EventEntity(
     val attachment: Attachment? = null,
     val link: String? = null,
     val users: Map<String, UserPreview>,
-    val ownedByMe: Boolean = false
+    val ownedByMe: Boolean = false,
 ) {
 
     fun toDto() = Event(

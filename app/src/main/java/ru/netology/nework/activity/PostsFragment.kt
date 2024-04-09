@@ -74,7 +74,7 @@ class PostsFragment : Fragment() {
 
             override fun onCardPost(post: Post) {
                 postViewModel.openPost(post)
-                parentNavController?.navigate(R.id.action_mainFragment_to_detailPostFragment)
+                parentNavController?.navigate(R.id.detailPostFragment)
             }
 
             override fun onSharePost(post: Post) {
