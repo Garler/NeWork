@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
-import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
@@ -109,7 +108,7 @@ class DetailPostFragment : Fragment() {
                                 17.0F,
                                 0.0f,
                                 0.0f
-                            ), Animation(Animation.Type.SMOOTH, 5f), null
+                            )
                         )
                     } else {
                         placeMark = null
@@ -117,7 +116,6 @@ class DetailPostFragment : Fragment() {
                     isVisible = placeMark != null && point != null
                 }
             }
-
         }
 
         binding.topAppBar.setOnMenuItemClickListener {

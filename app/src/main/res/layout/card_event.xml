@@ -179,6 +179,7 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
                 android:button="@drawable/selector_users_24"
+                android:clickable="false"
                 android:contentDescription="@string/button_users"
                 android:padding="@dimen/padding_button"
                 android:textColor="@color/md_theme_primary"

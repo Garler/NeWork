@@ -56,7 +56,7 @@ class PostsFragment : Fragment() {
                 if (token?.id != 0 && token?.id.toString().isNotEmpty()) {
                     postViewModel.likePost(post)
                 } else {
-                    parentNavController?.navigate(R.id.action_mainFragment_to_loginFragment)
+                    parentNavController?.navigate(R.id.loginFragment)
                 }
             }
 
