@@ -27,6 +27,7 @@ import ru.netology.nework.dto.Media
 import ru.netology.nework.dto.Post
 import ru.netology.nework.dto.UserResponse
 import ru.netology.nework.entity.EventEntity
+import ru.netology.nework.entity.JobEntity
 import ru.netology.nework.entity.PostEntity
 import ru.netology.nework.entity.UserEntity
 import ru.netology.nework.entity.toDto
@@ -366,12 +367,12 @@ class RepositoryImpl @Inject constructor(
                 throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-
             jobDao.insertListJobs(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            throw UnknownError
+            e.printStackTrace()
+            throw UnknownError()
         }
     }
 
@@ -399,13 +400,12 @@ class RepositoryImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-            response.body() ?: throw ApiError(response.code(), response.message())
-
-            getMyJobs()
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            jobDao.insertJob(JobEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            throw UnknownError
+            e.printStackTrace()
         }
     }
 

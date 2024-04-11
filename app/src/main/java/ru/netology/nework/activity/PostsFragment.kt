@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +27,7 @@ import ru.netology.nework.auth.AuthState
 import ru.netology.nework.databinding.FragmentPostsBinding
 import ru.netology.nework.dto.Post
 import ru.netology.nework.util.AppConst
+import ru.netology.nework.util.StringArg
 import ru.netology.nework.viewmodel.AuthViewModel
 import ru.netology.nework.viewmodel.PostViewModel
 
@@ -66,9 +66,10 @@ class PostsFragment : Fragment() {
 
             override fun onEditPost(post: Post) {
                 postViewModel.editPost(post)
-                parentNavController?.navigate(
-                    R.id.action_mainFragment_to_newPostFragment,
-                    bundleOf(AppConst.EDIT_POST to post.content)
+                findNavController().navigate(
+                    R.id.newPostFragment, Bundle().apply {
+                        textArg = post.content
+                    }
                 )
             }
 
@@ -150,5 +151,9 @@ class PostsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    companion object {
+        var Bundle.textArg by StringArg
     }
 }

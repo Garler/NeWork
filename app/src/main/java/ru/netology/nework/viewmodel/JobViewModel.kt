@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nework.auth.AppAuth
@@ -21,47 +23,37 @@ class JobViewModel @Inject constructor(
     private val repository: Repository,
     appAuth: AppAuth,
 ) : ViewModel() {
+    private val _dataState = MutableLiveData(FeedModelState())
     private val userId = MutableLiveData<Int>()
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dataJob: Flow<List<Job>> = appAuth.authStateFlow.flatMapLatest { (MyId) ->
+    val data: Flow<List<Job>> = appAuth.authStateFlow.flatMapLatest { (myId, _) ->
         repository.dataJob.map {
             it.map { job ->
                 job.copy(
-                    ownedByMe = userId.value == MyId
+                    ownedByMe = userId.value == myId
                 )
             }
         }
-    }
+    }.flowOn(Dispatchers.Default)
 
-    private val _dataState = MutableLiveData(FeedModelState())
-
-    fun getJobs(userId: Int) = viewModelScope.launch {
-        _dataState.postValue(FeedModelState(loading = true))
-        try {
-            repository.getJobs(userId)
-            _dataState.postValue(FeedModelState())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            _dataState.postValue(FeedModelState(error = true))
-        }
-    }
-
-    fun removeJob(id: Int) {
-        viewModelScope.launch {
+    fun getJobs(userId: Int?) = viewModelScope.launch {
+        if (userId == null) {
             try {
-                repository.deleteJob(id)
-                _dataState.value = FeedModelState()
-
+                repository.getMyJobs()
+                _dataState.postValue(FeedModelState())
             } catch (e: Exception) {
-                _dataState.value = FeedModelState(error = true)
-
+                e.printStackTrace()
+                _dataState.postValue(FeedModelState(error = true))
+            }
+        } else {
+            try {
+                repository.getJobs(userId)
+                _dataState.postValue(FeedModelState())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _dataState.postValue(FeedModelState(error = true))
             }
         }
-    }
-
-    fun setId(id: Int) {
-        userId.value = id
     }
 
     fun saveJob(
@@ -81,5 +73,22 @@ class JobViewModel @Inject constructor(
                 finish = finishWork,
             )
         )
+    }
+
+    fun removeJob(id: Int) {
+        viewModelScope.launch {
+            try {
+                repository.deleteJob(id)
+                _dataState.value = FeedModelState()
+
+            } catch (e: Exception) {
+                _dataState.value = FeedModelState(error = true)
+
+            }
+        }
+    }
+
+    fun setId(id: Int) {
+        userId.value = id
     }
 }

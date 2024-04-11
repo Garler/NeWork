@@ -49,12 +49,11 @@ class JobsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 jobViewModel.setId(userId)
                 jobViewModel.getJobs(userId)
-                jobViewModel.dataJob.collectLatest {
+                jobViewModel.data.collectLatest {
                     jobAdapter.submitList(it)
                 }
             }
         }
-
         binding.buttonAddJob.isVisible = userId == authViewModel.dataAuth.value?.id
         binding.buttonAddJob.setOnClickListener {
             parentNavController?.navigate(R.id.action_detailUserFragment_to_newJobFragment)

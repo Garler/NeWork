@@ -73,4 +73,10 @@
     <string name="login_register">Login</string>
     <string name="present_time">PT</string>
     <string name="non_working">Non-working</string>
+    <string name="attachment_15MB">The file is more than 15 MB</string>
+    <string name="empty_field">Empty field</string>
+    <string name="invalid_date_format">Invalid date format</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="name_job">Name</string>
 </resources>

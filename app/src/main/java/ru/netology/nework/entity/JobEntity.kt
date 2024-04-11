@@ -13,7 +13,8 @@ data class JobEntity(
     val position: String,
     val start: String,
     val finish: String,
-    val link: String? = null
+    val link: String? = null,
+    val ownedByMe: Boolean = false,
 ) {
     fun toDto() = Job(
         id,
@@ -21,7 +22,8 @@ data class JobEntity(
         position,
         OffsetDateTime.parse(start),
         OffsetDateTime.parse(finish),
-        link
+        link,
+        ownedByMe,
     )
 
     companion object {
@@ -31,7 +33,8 @@ data class JobEntity(
             job.position,
             job.start.toString(),
             job.finish.toString(),
-            job.link
+            job.link,
+            job.ownedByMe,
         )
     }
 }

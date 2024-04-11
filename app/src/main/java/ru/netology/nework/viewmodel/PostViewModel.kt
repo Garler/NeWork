@@ -122,8 +122,8 @@ class PostViewModel @Inject constructor(
         _editedPost.value = post
     }
 
-    fun setAttachment(uri: Uri, file: File, attachmentType: AttachmentType) {
-        _attachmentData.value = AttachmentModel(attachmentType, uri, file)
+    fun setAttachment(uri: Uri, file: File?, attachmentType: AttachmentType) {
+        _attachmentData.value = file?.let { AttachmentModel(attachmentType, uri, it) }
     }
 
     fun removePhoto() {

@@ -47,6 +47,7 @@ class JobViewHolder(
         binding.apply {
             jobName.text = job.name
             jobPosition.text = job.position
+            jobLink.text = job.link
 
             jobStartEnd.text = buildString {
                 append(job.start.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
@@ -57,7 +58,7 @@ class JobViewHolder(
                     )
                 )
             }
-
+            jobLink.isVisible = job.link != null && job.link != ""
             buttonRemoveJob.isVisible = job.ownedByMe
             buttonRemoveJob.setOnClickListener { listener.onRemoveJob(job) }
         }

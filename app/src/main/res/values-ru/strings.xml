@@ -72,4 +72,10 @@
     <string name="login_register">Зарегистрироваться</string>
     <string name="present_time">НВ</string>
     <string name="non_working">Свободный</string>
+    <string name="attachment_15MB">Размер файла превышает 15 МБ</string>
+    <string name="empty_field">Пустое поле</string>
+    <string name="invalid_date_format">Некорректный формат даты</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+    <string name="name_job">Организация</string>
 </resources>

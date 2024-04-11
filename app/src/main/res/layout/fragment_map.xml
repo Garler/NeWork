@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/new_content_menu"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:title="@string/address" />
 
