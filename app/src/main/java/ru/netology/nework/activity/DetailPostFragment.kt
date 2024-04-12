@@ -87,7 +87,6 @@ class DetailPostFragment : Fragment() {
                 buttonLike.isChecked = postItem.likedByMe
                 buttonUsers.text = postItem.mentionIds.size.toString()
 
-                map.setNoninteractive(true)
                 mapView = binding.map.apply {
                     val point =
                         if (postItem.coords != null) Point(

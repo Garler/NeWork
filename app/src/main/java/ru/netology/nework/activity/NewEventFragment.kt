@@ -13,8 +13,12 @@ import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nework.R
 import ru.netology.nework.databinding.FragmentNewEventBinding
@@ -28,6 +32,8 @@ import ru.netology.nework.viewmodel.EventViewModel
 class NewEventFragment: Fragment() {
     private lateinit var binding: FragmentNewEventBinding
     private val eventViewModel: EventViewModel by activityViewModels()
+    private val gson = Gson()
+    private val pointToken = object : TypeToken<Point>() {}.type
 
     companion object {
         var Bundle.text by StringArg
@@ -115,6 +121,10 @@ class NewEventFragment: Fragment() {
 
         binding.addLocation.setOnClickListener {
             findNavController().navigate(R.id.action_newEventFragment_to_mapFragment)
+        }
+        setFragmentResultListener("mapFragment") { _, bundle ->
+            val point = gson.fromJson<Point>(bundle.getString("point"), pointToken)
+            point.let { eventViewModel.setCoords(it) }
         }
 
         binding.chooseUsers.setOnClickListener {

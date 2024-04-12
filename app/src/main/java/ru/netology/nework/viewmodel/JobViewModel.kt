@@ -18,6 +18,15 @@ import ru.netology.nework.repository.Repository
 import java.time.OffsetDateTime
 import javax.inject.Inject
 
+private val empty = Job(
+    id = 0,
+    name = "",
+    position = "",
+    start = OffsetDateTime.now(),
+    finish = OffsetDateTime.now(),
+    link = "",
+    ownedByMe = false,
+)
 @HiltViewModel
 class JobViewModel @Inject constructor(
     private val repository: Repository,
@@ -25,6 +34,7 @@ class JobViewModel @Inject constructor(
 ) : ViewModel() {
     private val _dataState = MutableLiveData(FeedModelState())
     private val userId = MutableLiveData<Int>()
+    private val edited = MutableLiveData(empty)
     @OptIn(ExperimentalCoroutinesApi::class)
     val data: Flow<List<Job>> = appAuth.authStateFlow.flatMapLatest { (myId, _) ->
         repository.dataJob.map {
@@ -60,19 +70,27 @@ class JobViewModel @Inject constructor(
         name: String,
         position: String,
         link: String?,
-        startWork: OffsetDateTime,
-        finishWork: OffsetDateTime,
-    ) = viewModelScope.launch {
-        repository.saveJob(
-            Job(
-                id = 0,
-                name = name,
-                position = position,
-                link = link,
-                start = startWork,
-                finish = finishWork,
+        start: OffsetDateTime,
+        finish: OffsetDateTime,
+    ) {
+        edited.value?.let {
+            val jobCopy = it.copy(
+                name = name.trim(),
+                position = position.trim(),
+                link = link?.trim(),
+                start = start,
+                finish = finish,
             )
-        )
+            viewModelScope.launch {
+                try {
+                    repository.saveJob(jobCopy)
+                    _dataState.value = FeedModelState()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _dataState.postValue(FeedModelState(error = true))
+                }
+            }
+        }
     }
 
     fun removeJob(id: Int) {

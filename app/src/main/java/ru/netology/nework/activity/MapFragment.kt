@@ -1,6 +1,5 @@
 package ru.netology.nework.activity
 
-import android.graphics.PointF
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,43 +14,51 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
+import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import com.yandex.runtime.image.ImageProvider
-import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nework.R
 import ru.netology.nework.databinding.FragmentMapBinding
 
-@AndroidEntryPoint
-class MapFragment : Fragment(), UserLocationObjectListener {
+class MapFragment : Fragment() {
     private lateinit var binding: FragmentMapBinding
+    private lateinit var mapView: MapView
     private lateinit var userLocation: UserLocationLayer
     private var placeMark: PlacemarkMapObject? = null
     private val gson = Gson()
-    private lateinit var map: MapView
+
+    private val locationObjectListener = object : UserLocationObjectListener {
+        override fun onObjectAdded(view: UserLocationView) = Unit
+
+        override fun onObjectRemoved(view: UserLocationView) = Unit
+
+        override fun onObjectUpdated(view: UserLocationView, event: ObjectEvent) {
+            userLocation.cameraPosition()?.target?.let {
+                mapView.mapWindow?.map?.move(CameraPosition(it, 10F, 0F, 0F))
+            }
+            userLocation.setObjectListener(null)
+        }
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
-        map = binding.map
         MapKitFactory.initialize(requireContext())
-
-        userLocation =
-            MapKitFactory.getInstance().createUserLocationLayer(binding.map.mapWindow)
-        userLocation.isVisible = true
-        userLocation.setObjectListener(this)
 
         val imageProvider =
             ImageProvider.fromResource(requireContext(), R.drawable.ic_location_on_24)
-        val inputListener = object : InputListener {
-            override fun onMapTap(map: com.yandex.mapkit.map.Map, point: Point) = Unit
-            override fun onMapLongTap(map: com.yandex.mapkit.map.Map, point: Point) {
+        val listener = object : InputListener {
+            override fun onMapTap(map: Map, point: Point) = Unit
+            override fun onMapLongTap(map: Map, point: Point) {
                 if (placeMark == null) {
-                    placeMark = binding.map.mapWindow.map.mapObjects.addPlacemark()
+                    placeMark = map.mapObjects.addPlacemark()
                 }
                 placeMark?.apply {
                     geometry = point
@@ -59,7 +66,14 @@ class MapFragment : Fragment(), UserLocationObjectListener {
                 }
             }
         }
-        binding.map.mapWindow.map.addInputListener(inputListener)
+
+        mapView = binding.map.apply {
+            userLocation = MapKitFactory.getInstance().createUserLocationLayer(mapWindow)
+            userLocation.isVisible = true
+            userLocation.isHeadingEnabled = false
+            mapWindow.map.addInputListener(listener)
+            userLocation.setObjectListener(locationObjectListener)
+        }
 
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -85,27 +99,13 @@ class MapFragment : Fragment(), UserLocationObjectListener {
 
     override fun onStart() {
         super.onStart()
+        mapView.onStart()
         MapKitFactory.getInstance().onStart()
-        map.onStart()
     }
 
     override fun onStop() {
-        map.onStop()
-        MapKitFactory.getInstance().onStop()
         super.onStop()
+        mapView.onStop()
+        MapKitFactory.getInstance().onStop()
     }
-
-    override fun onObjectAdded(userLoactionView: UserLocationView) {
-        userLocation.setAnchor(
-            PointF((map.width * 0.5).toFloat(), (map.height * 0.5).toFloat()),
-            PointF((map.width * 0.5).toFloat(), (map.height * 0.83).toFloat())
-        )
-        map.mapWindow.map.move(
-            CameraPosition(userLoactionView.arrow.geometry, 17f, 0f, 0f)
-        )
-    }
-
-    override fun onObjectRemoved(p0: UserLocationView) = Unit
-
-    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) = Unit
 }

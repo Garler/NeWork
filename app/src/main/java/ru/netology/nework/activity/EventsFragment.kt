@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -25,7 +24,6 @@ import ru.netology.nework.adapter.OnEventInteractionListener
 import ru.netology.nework.auth.AuthState
 import ru.netology.nework.databinding.FragmentEventsBinding
 import ru.netology.nework.dto.Event
-import ru.netology.nework.util.AppConst
 import ru.netology.nework.viewmodel.AuthViewModel
 import ru.netology.nework.viewmodel.EventViewModel
 
@@ -64,8 +62,7 @@ class EventsFragment : Fragment() {
             override fun onEditEvent(event: Event) {
                 eventViewModel.editEvent(event)
                 parentNavController?.navigate(
-                    R.id.action_mainFragment_to_newEventFragment,
-                    bundleOf(AppConst.EDIT_EVENT to event.content)
+                    R.id.action_mainFragment_to_newEventFragment
                 )
             }
 

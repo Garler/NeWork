@@ -88,7 +88,6 @@ class DetailEventFragment : Fragment() {
                 buttonLike.isChecked = eventItem.likedByMe
                 buttonUsers.text = eventItem.participantsIds.size.toString()
 
-                map.setNoninteractive(true)
                 mapView = binding.map.apply {
                     val point =
                         if (eventItem.coords != null) Point(

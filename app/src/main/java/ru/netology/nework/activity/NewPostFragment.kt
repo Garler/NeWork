@@ -126,7 +126,7 @@ class NewPostFragment : Fragment() {
         }
         setFragmentResultListener("mapFragment") { _, bundle ->
             val point = gson.fromJson<Point>(bundle.getString("point"), pointToken)
-            point.let { postViewModel.setCoord(it) }
+            point.let { postViewModel.setCoords(it) }
         }
 
         postViewModel.editedPost.observe(viewLifecycleOwner) { post ->

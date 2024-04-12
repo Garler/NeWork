@@ -130,7 +130,7 @@ class PostViewModel @Inject constructor(
         _attachmentData.value = null
     }
 
-    fun setCoord(point: Point?) {
+    fun setCoords(point: Point?) {
         if (point != null) {
             _editedPost.value = _editedPost.value?.copy(
                 coords = Coords(point.latitude, point.longitude)
