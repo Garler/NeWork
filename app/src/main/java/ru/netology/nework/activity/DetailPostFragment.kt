@@ -46,17 +46,13 @@ class DetailPostFragment : Fragment() {
     private var mapView: MapView? = null
     private val gson = Gson()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        MapKitFactory.initialize(requireContext())
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentDetailPostBinding.inflate(inflater, container, false)
+        MapKitFactory.initialize(requireContext())
 
         var post: Post? = null
         val imageProvider =
@@ -108,6 +104,7 @@ class DetailPostFragment : Fragment() {
                 buttonUsers.text = postItem.mentionIds.size.toString()
                 buttonUsers.isChecked = postItem.mentionedMe
 
+                map.setNoninteractive(true)
                 mapView = binding.map.apply {
                     val point =
                         if (postItem.coords != null) Point(

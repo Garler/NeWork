@@ -35,17 +35,13 @@ class DetailEventFragment : Fragment() {
     private var placeMark: PlacemarkMapObject? = null
     private var mapView: MapView? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        MapKitFactory.initialize(requireContext())
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDetailEventBinding.inflate(inflater, container, false)
+        MapKitFactory.initialize(requireContext())
 
         var event: Event? = null
         val imageProvider =
@@ -88,6 +84,7 @@ class DetailEventFragment : Fragment() {
                 buttonLike.isChecked = eventItem.likedByMe
                 buttonUsers.text = eventItem.participantsIds.size.toString()
 
+                map.setNoninteractive(true)
                 mapView = binding.map.apply {
                     val point =
                         if (eventItem.coords != null) Point(
@@ -149,16 +146,15 @@ class DetailEventFragment : Fragment() {
         player?.apply {
             stop()
         }
-        super.onStop()
         mapView?.onStop()
         MapKitFactory.getInstance().onStop()
+        super.onStop()
     }
 
     override fun onStart() {
         super.onStart()
-        mapView?.onStart()
         MapKitFactory.getInstance().onStart()
-
+        mapView?.onStart()
     }
 
     override fun onDestroyView() {
