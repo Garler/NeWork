@@ -202,6 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:paddingBottom="@dimen/padding_default"
+                android:paddingTop="@dimen/padding_default"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/mentioned_group"
                 tools:visibility="visible" />

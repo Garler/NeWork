@@ -361,11 +361,12 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getMyJobs() {
         try {
-            jobDao.getAllJobs()
+            jobDao.clear()
             val response = apiService.myJobGetAllJob()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
+            jobDao.clear()
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             jobDao.insertListJobs(body.toEntity())
         } catch (e: IOException) {
@@ -383,8 +384,8 @@ class RepositoryImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
+            jobDao.clear()
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-
             _dataJob.postValue(body)
             jobDao.insertListJobs(body.toEntity())
         } catch (e: IOException) {
@@ -396,6 +397,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun saveJob(job: Job) {
         try {
+            jobDao.insertJob(JobEntity.fromDto(job))
             val response = apiService.myJobSaveJob(job)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())

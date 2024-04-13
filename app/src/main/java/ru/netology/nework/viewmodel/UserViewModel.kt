@@ -21,6 +21,7 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val repository: Repository,
 ) : ViewModel() {
+
     val dataUser: Flow<PagingData<FeedItem>> =
         repository.dataUser.map {
             it.map { feedItem ->

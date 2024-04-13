@@ -11,6 +11,8 @@ import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -22,6 +24,8 @@ import ru.netology.nework.dto.Coords
 import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.dto.Post
 import ru.netology.nework.model.AttachmentModel
+import ru.netology.nework.model.ListUsersModel
+import ru.netology.nework.model.ListUsersType
 import ru.netology.nework.repository.Repository
 import java.io.File
 import java.time.OffsetDateTime
@@ -53,7 +57,7 @@ class PostViewModel @Inject constructor(
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dataPost: Flow<PagingData<FeedItem>> = appAuth.authStateFlow
+    val data: Flow<PagingData<FeedItem>> = appAuth.authStateFlow
         .flatMapLatest { auth ->
             repository.dataPost.map {
                 it.map { feedItem ->
@@ -71,6 +75,7 @@ class PostViewModel @Inject constructor(
             }
         }.flowOn(Dispatchers.Default)
 
+
     private val _editedPost = MutableLiveData(emptyPost)
     val editedPost: LiveData<Post> = _editedPost
 
@@ -80,6 +85,7 @@ class PostViewModel @Inject constructor(
     val attachmentData: LiveData<AttachmentModel?>
         get() = _attachmentData
 
+    val listUsersData = MutableLiveData(ListUsersModel())
 
     fun savePost(content: String) {
         val text = content.trim()
@@ -122,8 +128,8 @@ class PostViewModel @Inject constructor(
         _editedPost.value = post
     }
 
-    fun setAttachment(uri: Uri, file: File?, attachmentType: AttachmentType) {
-        _attachmentData.value = file?.let { AttachmentModel(attachmentType, uri, it) }
+    fun setAttachment(uri: Uri, file: File, attachmentType: AttachmentType) {
+        _attachmentData.value = AttachmentModel(attachmentType, uri, file)
     }
 
     fun removePhoto() {
@@ -144,14 +150,44 @@ class PostViewModel @Inject constructor(
         )
     }
 
-    fun setMentionId(selectedUsers: List<Int>) {
-        _editedPost.value = _editedPost.value?.copy(
-            mentionIds = selectedUsers
-        )
+    fun setMentionId(list: List<Int>) {
+        if (editedPost.value?.mentionIds == list) {
+            return
+        }
+        _editedPost.value = _editedPost.value?.copy(mentionIds = list)
     }
 
     fun openPost(post: Post) {
         postData.value = post
+    }
+
+    suspend fun getListUsers(involved: List<Int>, listUsersType: ListUsersType) {
+        val list = involved
+            .let {
+                if (it.size > 4) it.take(5) else it
+            }
+            .map {
+                viewModelScope.async { repository.getUser(it) }
+            }.awaitAll()
+
+        synchronized(listUsersType) {
+            when (listUsersType) {
+
+                ListUsersType.LIKERS -> {
+                    listUsersData.value = listUsersData.value?.copy(
+                        likers = list
+                    )
+                }
+
+                ListUsersType.MENTIONED -> {
+                    listUsersData.value = listUsersData.value?.copy(
+                        mentioned = list
+                    )
+                }
+
+                else -> return
+            }
+        }
     }
 
 }

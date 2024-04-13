@@ -12,7 +12,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -133,15 +132,6 @@ class NewPostFragment : Fragment() {
             if (post.id != 0) {
                 postViewModel.savePost(post.content)
                 binding.textContent.requestFocus()
-
-                post.attachment?.let { attachment ->
-                    val type = attachment.type
-                    val url = attachment.url
-                    postViewModel.setAttachment(url.toUri(), null, type)
-                    if (type == AttachmentType.IMAGE) {
-                        binding.imageContainer.visibility = View.VISIBLE
-                    }
-                }
             }
         }
 

@@ -78,4 +78,5 @@
     <string name="ok">ОК</string>
     <string name="cancel">Отмена</string>
     <string name="name_job">Организация</string>
+    <string name="participants">Участники</string>
 </resources>

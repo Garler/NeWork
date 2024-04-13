@@ -66,8 +66,9 @@ class PostsFragment : Fragment() {
 
             override fun onEditPost(post: Post) {
                 postViewModel.editPost(post)
-                findNavController().navigate(
-                    R.id.newPostFragment, Bundle().apply {
+                parentNavController?.navigate(
+                    R.id.newPostFragment,
+                    Bundle().apply {
                         textArg = post.content
                     }
                 )
@@ -93,7 +94,7 @@ class PostsFragment : Fragment() {
         binding.listPosts.adapter = postAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                postViewModel.dataPost.collectLatest {
+                postViewModel.data.collectLatest {
                     if (userId != null) {
                         postAdapter.submitData(it.filter { post ->
                             post is Post && post.authorId == userId

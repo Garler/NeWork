@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/user_photo"
@@ -10,7 +11,6 @@
         android:layout_width="@dimen/size_card_avatar"
         android:layout_height="@dimen/size_card_avatar"
         android:layout_gravity="center"
-        app:cardBackgroundColor="@color/md_theme_primary"
         app:cardCornerRadius="64dp"
         app:strokeColor="@color/white"
         app:strokeWidth="2dp">
@@ -22,9 +22,7 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:contentDescription="@string/author_avatar_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_add_24"
-            app:tint="@color/md_theme_onPrimary" />
+            tools:src="@drawable/ic_add_circle_48" />
 
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

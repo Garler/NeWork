@@ -184,21 +184,21 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/mentioned_header"
+                android:id="@+id/participants_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_default"
-                android:text="@string/mentioned"
+                android:text="@string/participants"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/likers_group" />
 
             <LinearLayout
-                android:id="@+id/mentioned_group"
+                android:id="@+id/participants_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/mentioned_header">
+                app:layout_constraintTop_toBottomOf="@id/participants_header">
 
                 <CheckBox
                     android:id="@+id/button_users"
@@ -215,7 +215,7 @@
                     tools:text="@sample/posts.json/data/views" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_mentioned"
+                    android:id="@+id/list_participants"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -233,7 +233,7 @@
                 android:layout_height="250dp"
                 android:paddingBottom="@dimen/padding_default"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/mentioned_group"
+                app:layout_constraintTop_toBottomOf="@id/participants_group"
                 tools:layout_editor_absoluteX="-8dp"
                 tools:visibility="visible" />
 

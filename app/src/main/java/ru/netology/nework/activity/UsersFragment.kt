@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -12,7 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.filter
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,6 +31,8 @@ import ru.netology.nework.viewmodel.UserViewModel
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels()
+    private val gson = Gson()
+    private val typeToken = object : TypeToken<List<Int>>() {}.type
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +41,25 @@ class UsersFragment : Fragment() {
         val binding = FragmentUsersBinding.inflate(inflater, container, false)
         val parentNavController = parentFragment?.parentFragment?.findNavController()
         val selectedUsers = mutableListOf<Int>()
+
+        val listUsersConst = when {
+            arguments?.containsKey(AppConst.LIKERS) == true -> {
+                binding.topAppBar.title = getString(R.string.likers)
+                gson.fromJson<List<Int>>(arguments?.getString(AppConst.LIKERS), typeToken)
+            }
+
+            arguments?.containsKey(AppConst.PARTICIPANT) == true -> {
+                binding.topAppBar.title = getString(R.string.participants)
+                gson.fromJson<List<Int>>(arguments?.getString(AppConst.PARTICIPANT), typeToken)
+            }
+
+            arguments?.containsKey(AppConst.MENTIONED) == true -> {
+                binding.topAppBar.title = getString(R.string.mentioned)
+                gson.fromJson<List<Int>>(arguments?.getString(AppConst.MENTIONED), typeToken)
+            }
+
+            else -> null
+        }
 
         val userAdapter = UserAdapter(object : OnUserInteractionListener {
 
@@ -54,7 +79,14 @@ class UsersFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 userViewModel.dataUser.collectLatest {
-                    userAdapter.submitData(it)
+                    if (listUsersConst != null) {
+                        userAdapter.submitData(
+                            it.filter { item ->
+                                item.id in listUsersConst
+                            })
+                    } else {
+                        userAdapter.submitData(it)
+                    }
                 }
             }
         }
@@ -77,6 +109,12 @@ class UsersFragment : Fragment() {
 
         binding.swipeRefreshUsers.setOnRefreshListener {
             userAdapter.refresh()
+        }
+
+        binding.topAppBar.isVisible = listUsersConst != null
+
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
 
         return binding.root

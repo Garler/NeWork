@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
@@ -18,10 +21,16 @@ import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.netology.nework.R
+import ru.netology.nework.adapter.ListUsersAdapter
+import ru.netology.nework.adapter.ListUsersOnClickListener
 import ru.netology.nework.databinding.FragmentDetailPostBinding
 import ru.netology.nework.dto.AttachmentType
 import ru.netology.nework.dto.Post
+import ru.netology.nework.model.ListUsersType
+import ru.netology.nework.util.AppConst
+import ru.netology.nework.util.ViewDecor
 import ru.netology.nework.util.loadAvatar
 import ru.netology.nework.util.loadImage
 import ru.netology.nework.viewmodel.PostViewModel
@@ -31,9 +40,11 @@ import java.time.format.DateTimeFormatter
 class DetailPostFragment : Fragment() {
     private lateinit var binding: FragmentDetailPostBinding
     private val postViewModel: PostViewModel by activityViewModels()
+
     private var player: ExoPlayer? = null
     private var placeMark: PlacemarkMapObject? = null
     private var mapView: MapView? = null
+    private val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +61,7 @@ class DetailPostFragment : Fragment() {
         var post: Post? = null
         val imageProvider =
             ImageProvider.fromResource(requireContext(), R.drawable.ic_location_on_24)
+        val viewDecor = ViewDecor(36)
 
         postViewModel.postData.observe(viewLifecycleOwner) { postItem ->
             post = postItem
@@ -83,9 +95,18 @@ class DetailPostFragment : Fragment() {
                     postItem.published.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
                 textContent.text = postItem.content
 
+                lifecycleScope.launch {
+                    postViewModel.getListUsers(postItem.likeOwnerIds, ListUsersType.LIKERS)
+                }
+
+                lifecycleScope.launch {
+                    postViewModel.getListUsers(postItem.mentionIds, ListUsersType.MENTIONED)
+                }
+
                 buttonLike.text = postItem.likeOwnerIds.size.toString()
                 buttonLike.isChecked = postItem.likedByMe
                 buttonUsers.text = postItem.mentionIds.size.toString()
+                buttonUsers.isChecked = postItem.mentionedMe
 
                 mapView = binding.map.apply {
                     val point =
@@ -113,8 +134,40 @@ class DetailPostFragment : Fragment() {
                         placeMark = null
                     }
                     isVisible = placeMark != null && point != null
+
                 }
             }
+        }
+
+        val likersAdapter = ListUsersAdapter(object : ListUsersOnClickListener {
+            override fun onOpenList() {
+                findNavController().navigate(
+                    R.id.usersFragment2,
+                    bundleOf(AppConst.LIKERS to gson.toJson(post?.likeOwnerIds))
+                )
+            }
+        })
+        val mentionedAdapter = ListUsersAdapter(object : ListUsersOnClickListener {
+            override fun onOpenList() {
+                findNavController().navigate(
+                    R.id.usersFragment2,
+                    bundleOf(AppConst.MENTIONED to gson.toJson(post?.mentionIds))
+                )
+            }
+        })
+
+        postViewModel.listUsersData.observe(viewLifecycleOwner) { involved ->
+            likersAdapter.submitList(involved.likers)
+            mentionedAdapter.submitList(involved.mentioned)
+        }
+
+        binding.listLikers.apply {
+            addItemDecoration(viewDecor)
+            adapter = likersAdapter
+        }
+        binding.listMentioned.apply {
+            addItemDecoration(viewDecor)
+            adapter = mentionedAdapter
         }
 
         binding.topAppBar.setOnMenuItemClickListener {
