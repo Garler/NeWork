@@ -11,6 +11,8 @@ import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -23,6 +25,8 @@ import ru.netology.nework.dto.Event
 import ru.netology.nework.dto.EventType
 import ru.netology.nework.dto.FeedItem
 import ru.netology.nework.model.AttachmentModel
+import ru.netology.nework.model.ListUsersModel
+import ru.netology.nework.model.ListUsersType
 import ru.netology.nework.repository.Repository
 import java.io.File
 import java.time.OffsetDateTime
@@ -81,6 +85,8 @@ class EventViewModel @Inject constructor(
     val editedEvent: LiveData<Event> = _editedEvent
 
     private val _attachmentData: MutableLiveData<AttachmentModel?> = MutableLiveData(null)
+
+    val listUsersData = MutableLiveData(ListUsersModel())
 
     fun saveEvent(content: String) {
         val text = content.trim()
@@ -163,5 +169,40 @@ class EventViewModel @Inject constructor(
 
     fun openEvent(event: Event) {
         eventData.value = event
+    }
+
+    suspend fun getListUsers(involved: List<Int>, listUsersType: ListUsersType) {
+        val list = involved
+            .let {
+                if (it.size > 4) it.take(5) else it
+            }
+            .map {
+                viewModelScope.async { repository.getUser(it) }
+            }.awaitAll()
+
+        synchronized(listUsersData) {
+            when (listUsersType) {
+                ListUsersType.SPEAKERS -> {
+                    listUsersData.value = listUsersData.value?.copy(
+                        speakers = list
+                    )
+                }
+
+                ListUsersType.LIKERS -> {
+                    listUsersData.value = listUsersData.value?.copy(
+                        likers = list
+                    )
+                }
+
+                ListUsersType.PARTICIPANT -> {
+                    listUsersData.value = listUsersData.value?.copy(
+                        participant = list
+                    )
+                }
+
+                else -> return
+            }
+        }
+
     }
 }

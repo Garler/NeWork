@@ -139,6 +139,31 @@
                 tools:layout_editor_absoluteX="0dp"
                 tools:text="@sample/posts.json/data/content" />
 
+            <LinearLayout
+                android:id="@+id/speakers_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/padding_default"
+                app:layout_constraintTop_toBottomOf="@id/text_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_min"
+                    android:text="@string/speakers"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_speakers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/card_avatar" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/likers_header"
                 android:layout_width="wrap_content"
@@ -147,7 +172,7 @@
                 android:text="@string/likers"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_content" />
+                app:layout_constraintTop_toBottomOf="@id/speakers_group" />
 
             <LinearLayout
                 android:id="@+id/likers_group"
@@ -215,7 +240,7 @@
                     tools:text="@sample/posts.json/data/views" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_participants"
+                    android:id="@+id/list_participant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

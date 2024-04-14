@@ -41,25 +41,26 @@ class MapFragment : Fragment(), UserLocationObjectListener {
         binding = FragmentMapBinding.inflate(inflater, container, false)
         MapKitFactory.initialize(requireContext())
 
-        val imageProvider =
+        val imageProvider: ImageProvider =
             ImageProvider.fromResource(requireContext(), R.drawable.ic_location_on_24)
+
         val inputListener = object : InputListener {
             override fun onMapTap(map: com.yandex.mapkit.map.Map, point: Point) {
-                placeMark = binding.map.mapWindow.map.mapObjects.addPlacemark()
+                placeMark = map.mapObjects.addPlacemark()
                 placeMark.apply {
                     geometry = point
                     setIcon(imageProvider)
-                    isVisible = true
                 }
+                placeMark.isDraggable = true
             }
 
             override fun onMapLongTap(map: com.yandex.mapkit.map.Map, point: Point) {
-                placeMark = binding.map.mapWindow.map.mapObjects.addPlacemark()
+                placeMark = map.mapObjects.addPlacemark()
                 placeMark.apply {
                     geometry = point
                     setIcon(imageProvider)
-                    isVisible = true
                 }
+                placeMark.isDraggable = true
             }
         }
 
@@ -111,11 +112,11 @@ class MapFragment : Fragment(), UserLocationObjectListener {
 
     override fun onObjectUpdated(view: UserLocationView, event: ObjectEvent) {
         userLocation.setAnchor(
-            PointF((mapView.width * 0.5).toFloat(), (mapView.height * 0.5).toFloat()),
-            PointF((mapView.width * 0.5).toFloat(), (mapView.height * 0.83).toFloat())
+            PointF(mapView.width * 0.5F, mapView.height * 0.5F),
+            PointF(mapView.width * 0.5F, mapView.height * 0.5F)
         )
         mapView.mapWindow.map.move(
-            CameraPosition(view.arrow.geometry, 17f, 0f, 0f)
+            CameraPosition(view.arrow.geometry, 16f, 0f, 0f)
         )
     }
 }

@@ -5,4 +5,5 @@ object AppConst {
     const val LIKERS = "likers"
     const val MENTIONED = "mentioned"
     const val PARTICIPANT = "participants"
+    const val SPEAKERS = "speakers"
 }

@@ -170,7 +170,7 @@ class PostViewModel @Inject constructor(
                 viewModelScope.async { repository.getUser(it) }
             }.awaitAll()
 
-        synchronized(listUsersType) {
+        synchronized(listUsersData) {
             when (listUsersType) {
 
                 ListUsersType.LIKERS -> {
