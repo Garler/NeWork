@@ -397,28 +397,22 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun saveJob(job: Job) {
         try {
-            jobDao.insertJob(JobEntity.fromDto(job))
             val response = apiService.myJobSaveJob(job)
-            if (!response.isSuccessful) {
-                throw ApiError(response.code(), response.message())
-            }
+            if (!response.isSuccessful) throw ApiError(response.code(), response.message())
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             jobDao.insertJob(JobEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            e.printStackTrace()
+            throw UnknownError
         }
     }
 
     override suspend fun deleteJob(id: Int) {
         try {
             val response = apiService.myJobDeleteJob(id)
-            if (!response.isSuccessful) {
-                throw ApiError(response.code(), response.message())
-            }
-
-            _dataJob.value = _dataJob.value?.filter { it.id != id }
+            if (!response.isSuccessful) throw ApiError(response.code(), response.message())
+            jobDao.deleteJobById(id)
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

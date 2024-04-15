@@ -24,7 +24,7 @@ import ru.netology.nework.entity.UserEntity
         EventEntity::class,
         EventRemoteKeyEntity::class
         ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 

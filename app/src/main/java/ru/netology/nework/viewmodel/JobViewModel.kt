@@ -69,9 +69,9 @@ class JobViewModel @Inject constructor(
     fun saveJob(
         name: String,
         position: String,
-        link: String?,
         start: OffsetDateTime,
         finish: OffsetDateTime,
+        link: String?,
     ) {
         edited.value?.let {
             val jobCopy = it.copy(
@@ -85,9 +85,10 @@ class JobViewModel @Inject constructor(
                 try {
                     repository.saveJob(jobCopy)
                     _dataState.value = FeedModelState()
+
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    _dataState.postValue(FeedModelState(error = true))
+                    _dataState.value = FeedModelState(error = true)
+
                 }
             }
         }

@@ -100,9 +100,9 @@ class NewJobFragment : Fragment() {
                 jobViewModel.saveJob(
                     name,
                     position,
-                    link,
                     dateStart,
-                    dateFinish ?: emptyOffsetDateTime
+                    dateFinish ?: emptyOffsetDateTime,
+                    link,
                 )
                 findNavController().navigateUp()
 
