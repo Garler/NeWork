@@ -88,7 +88,7 @@ class DetailEventFragment : Fragment() {
 
                 eventType.text = eventItem.type.toString()
                 eventDate.text =
-                    eventItem.published.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+                    eventItem.datetime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
                 textContent.text = eventItem.content
 
                 lifecycleScope.launch {

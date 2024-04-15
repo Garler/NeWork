@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -62,7 +63,8 @@ class EventsFragment : Fragment() {
             override fun onEditEvent(event: Event) {
                 eventViewModel.editEvent(event)
                 parentNavController?.navigate(
-                    R.id.action_mainFragment_to_newEventFragment
+                    R.id.action_mainFragment_to_newEventFragment,
+                    bundleOf("editEvent" to event.content)
                 )
             }
 

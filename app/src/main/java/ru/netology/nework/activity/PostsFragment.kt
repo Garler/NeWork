@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -68,9 +69,7 @@ class PostsFragment : Fragment() {
                 postViewModel.editPost(post)
                 parentNavController?.navigate(
                     R.id.newPostFragment,
-                    Bundle().apply {
-                        textArg = post.content
-                    }
+                    bundleOf("editPost" to post.content)
                 )
             }
 

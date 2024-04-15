@@ -98,13 +98,9 @@ class PostViewModel @Inject constructor(
             viewModelScope.launch {
                 val attachment = _attachmentData.value
                 if (attachment == null) {
-                    repository.savePost(
-                        it
-                    )
+                    repository.savePost(it)
                 } else {
-                    repository.savePostWithAttachment(
-                        it, attachment
-                    )
+                    repository.savePostWithAttachment(it, attachment)
                 }
             }
         }
@@ -142,12 +138,6 @@ class PostViewModel @Inject constructor(
                 coords = Coords(point.latitude, point.longitude)
             )
         }
-    }
-
-    fun removeCoords() {
-        _editedPost.value = _editedPost.value?.copy(
-            coords = null
-        )
     }
 
     fun setMentionId(selectedUsers: List<Int>) {

@@ -87,6 +87,11 @@ class NewEventFragment: Fragment() {
     ): View {
         binding = FragmentNewEventBinding.inflate(inflater, container, false)
 
+        val arg = arguments?.getString("editEvent")
+        if (arg != null) {
+            binding.textContent.setText(arg)
+        }
+
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.save -> {

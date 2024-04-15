@@ -91,6 +91,11 @@ class NewPostFragment : Fragment() {
     ): View {
         binding = FragmentNewPostBinding.inflate(inflater, container, false)
 
+        val arg = arguments?.getString("editPost")
+        if (arg != null) {
+            binding.textContent.setText(arg)
+        }
+
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.save -> {
@@ -126,13 +131,6 @@ class NewPostFragment : Fragment() {
         setFragmentResultListener("mapFragment") { _, bundle ->
             val point = gson.fromJson<Point>(bundle.getString("point"), pointToken)
             point.let { postViewModel.setCoords(it) }
-        }
-
-        postViewModel.editedPost.observe(viewLifecycleOwner) { post ->
-            if (post.id != 0) {
-                postViewModel.savePost(post.content)
-                binding.textContent.requestFocus()
-            }
         }
 
         binding.chooseUsers.setOnClickListener {
