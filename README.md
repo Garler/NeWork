@@ -21,10 +21,15 @@
 
 ## Скриншоты
 
-### Экраны входа и регистрации.
-<img src="./screenshots/login.png" width="200" /> <img src="./screenshots/registration.png" width="200" />
+### Стартовый экран. Экраны входа и регистрации.
+
+<img src="./screenshots/start.png" width="200" /> <img src="./screenshots/start_map.png" width="200" /> <img src="./screenshots/login.png" width="200" /> <img src="./screenshots/registration.png" width="200" />
 
 ### Экраны пользователя.
 
+<img src="./screenshots/user_with_avatar.png" width="200" /> <img src="./screenshots/user_without_avatar.png" width="200" /> <img src="./screenshots/user_jobs.png" width="200" />
 
 ### Основные экраны.
+
+<img src="./screenshots/posts.png" width="200" /> <img src="./screenshots/events.png" width="200" /> <img src="./screenshots/users.png" width="200" />
+<img src="./screenshots/post_detail.png" width="200" /> <img src="./screenshots/event_detail.png" width="200" /> <img src="./screenshots/map.png" width="200" />
