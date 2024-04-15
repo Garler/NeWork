@@ -80,4 +80,5 @@
     <string name="name_job">Организация</string>
     <string name="participants">Участники</string>
     <string name="speakers">Спикеры</string>
+    <string name="select_users">Выбрать пользователей</string>
 </resources>

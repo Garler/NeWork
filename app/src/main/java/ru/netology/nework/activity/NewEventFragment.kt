@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,6 +35,7 @@ class NewEventFragment: Fragment() {
     private val eventViewModel: EventViewModel by activityViewModels()
     private val gson = Gson()
     private val pointToken = object : TypeToken<Point>() {}.type
+    private val usersToken = object : TypeToken<List<Long>>() {}.type
 
     companion object {
         var Bundle.text by StringArg
@@ -129,8 +131,16 @@ class NewEventFragment: Fragment() {
 
         binding.chooseUsers.setOnClickListener {
             findNavController().navigate(
-                R.id.action_newEventFragment_to_usersFragment2
+                R.id.action_newEventFragment_to_usersFragment2,
+                bundleOf("selectUser" to true)
             )
+        }
+        setFragmentResultListener("usersFragmentResult") { _, bundle ->
+            val selectedUsers =
+                gson.fromJson<List<Int>>(bundle.getString("selectUser"), usersToken)
+            if (selectedUsers != null) {
+                eventViewModel.setSpeakerId(selectedUsers)
+            }
         }
 
         eventViewModel.attachmentData.observe(viewLifecycleOwner) { attachment ->

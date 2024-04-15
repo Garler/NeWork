@@ -81,4 +81,5 @@
     <string name="name_job">Name</string>
     <string name="participants">Participants</string>
     <string name="speakers">Speakers</string>
+    <string name="select_users">Select users</string>
 </resources>

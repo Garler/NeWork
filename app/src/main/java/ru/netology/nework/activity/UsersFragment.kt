@@ -122,7 +122,7 @@ class UsersFragment : Fragment() {
                 when {
                     arg -> {
                         menuInflater.inflate(R.menu.new_content_menu, menu)
-                        binding.topAppBar.title = getString(R.string.mentioned)
+                        binding.topAppBar.title = getString(R.string.select_users)
                     }
                 }
             }

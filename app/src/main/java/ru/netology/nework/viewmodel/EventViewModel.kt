@@ -140,7 +140,7 @@ class EventViewModel @Inject constructor(
         )
     }
 
-    fun setMentionId(selectedUsers: List<Int>) {
+    fun setSpeakerId(selectedUsers: List<Int>) {
         _editedEvent.value = _editedEvent.value?.copy(
             speakerIds = selectedUsers
         )
