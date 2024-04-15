@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,6 +39,7 @@ class NewPostFragment : Fragment() {
     private val postViewModel: PostViewModel by activityViewModels()
     private val gson = Gson()
     private val pointToken = object : TypeToken<Point>() {}.type
+    private val usersToken = object : TypeToken<List<Long>>() {}.type
 
     companion object {
         var Bundle.text by StringArg
@@ -85,11 +87,9 @@ class NewPostFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentNewPostBinding.inflate(inflater, container, false)
-
-
 
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -136,8 +136,17 @@ class NewPostFragment : Fragment() {
         }
 
         binding.chooseUsers.setOnClickListener {
-            requireParentFragment().findNavController()
-                .navigate(R.id.action_newPostFragment_to_usersFragment2)
+            findNavController().navigate(
+                R.id.action_newPostFragment_to_usersFragment2,
+                bundleOf("selectUser" to true)
+            )
+        }
+        setFragmentResultListener("usersFragmentResult") { _, bundle ->
+            val selectedUsers =
+                gson.fromJson<List<Int>>(bundle.getString("selectUser"), usersToken)
+            if (selectedUsers != null) {
+                postViewModel.setMentionId(selectedUsers)
+            }
         }
 
         postViewModel.attachmentData.observe(viewLifecycleOwner) { attachment ->

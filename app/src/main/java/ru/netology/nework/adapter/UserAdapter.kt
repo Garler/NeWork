@@ -2,6 +2,7 @@ package ru.netology.nework.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nework.databinding.CardUserBinding
@@ -17,22 +18,27 @@ interface OnUserInteractionListener {
 
 class UserAdapter(
     private val onUserInteractionListener: OnUserInteractionListener,
+    private val selectUser: Boolean,
+    private val selectedUsers: List<Int>? = null,
 
-) : PagingDataAdapter<FeedItem, UserViewHolder>(DiffCallback()) {
+    ) : PagingDataAdapter<FeedItem, UserViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = CardUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UserViewHolder(binding, onUserInteractionListener)
+        return UserViewHolder(binding, onUserInteractionListener, selectUser)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val item = getItem(position) as UserResponse
-        holder.bind(item)
+        holder.bind(if (selectedUsers?.firstOrNull { it == item.id } == null) item else item.copy(
+            selected = true
+        ))
     }
 }
 
 class UserViewHolder(
     private val binding: CardUserBinding,
     private val onUserInteractionListener: OnUserInteractionListener,
+    private val selectUser: Boolean,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(user: UserResponse) {
         with(binding) {
@@ -41,6 +47,8 @@ class UserViewHolder(
 
             authorAvatar.loadAvatar(user.avatar)
 
+            checkBox.isVisible = selectUser
+            checkBox.isChecked = user.selected
             checkBox.setOnClickListener {
                 onUserInteractionListener.onSelectUser(user)
             }

@@ -150,11 +150,10 @@ class PostViewModel @Inject constructor(
         )
     }
 
-    fun setMentionId(list: List<Int>) {
-        if (editedPost.value?.mentionIds == list) {
-            return
-        }
-        _editedPost.value = _editedPost.value?.copy(mentionIds = list)
+    fun setMentionId(selectedUsers: List<Int>) {
+        _editedPost.value = _editedPost.value?.copy(
+            mentionIds = selectedUsers
+        )
     }
 
     fun openPost(post: Post) {

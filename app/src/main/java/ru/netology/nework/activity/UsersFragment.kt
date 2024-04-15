@@ -2,12 +2,17 @@ package ru.netology.nework.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -40,6 +45,7 @@ class UsersFragment : Fragment() {
     ): View {
         val binding = FragmentUsersBinding.inflate(inflater, container, false)
         val parentNavController = parentFragment?.parentFragment?.findNavController()
+        val arg = arguments?.containsKey("selectUser") ?: false
         val selectedUsers = mutableListOf<Int>()
 
         val listUsersConst = when {
@@ -64,7 +70,11 @@ class UsersFragment : Fragment() {
         val userAdapter = UserAdapter(object : OnUserInteractionListener {
 
             override fun onSelectUser(userResponse: UserResponse) {
-                selectedUsers.add(userResponse.id)
+                if (selectedUsers.contains(userResponse.id)) {
+                    selectedUsers.remove(userResponse.id)
+                } else {
+                    selectedUsers.add(userResponse.id)
+                }
             }
 
             override fun onCardUser(userResponse: UserResponse) {
@@ -73,7 +83,7 @@ class UsersFragment : Fragment() {
                     bundleOf(AppConst.USER_ID to userResponse.id)
                 )
             }
-        })
+        }, arg, selectedUsers)
         binding.listUsers.adapter = userAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -107,11 +117,37 @@ class UsersFragment : Fragment() {
             }
         }
 
+        binding.topAppBar.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                when {
+                    arg -> {
+                        menuInflater.inflate(R.menu.new_content_menu, menu)
+                        binding.topAppBar.title = getString(R.string.mentioned)
+                    }
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.save -> {
+                        setFragmentResult(
+                            "usersFragmentResult",
+                            bundleOf("selectUser" to gson.toJson(selectedUsers))
+                        )
+                        findNavController().navigateUp()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        })
+
         binding.swipeRefreshUsers.setOnRefreshListener {
             userAdapter.refresh()
         }
 
-        binding.topAppBar.isVisible = listUsersConst != null
+        binding.topAppBar.isVisible = arg || listUsersConst != null
 
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().navigateUp()

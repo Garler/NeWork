@@ -32,6 +32,7 @@ class MapFragment : Fragment(), UserLocationObjectListener {
     private lateinit var userLocation: UserLocationLayer
     private lateinit var placeMark: PlacemarkMapObject
     private val gson = Gson()
+    private var inputListener: InputListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +45,11 @@ class MapFragment : Fragment(), UserLocationObjectListener {
         val imageProvider: ImageProvider =
             ImageProvider.fromResource(requireContext(), R.drawable.ic_location_on_24)
 
-        val inputListener = object : InputListener {
+        inputListener = object : InputListener {
             override fun onMapTap(map: com.yandex.mapkit.map.Map, point: Point) {
+                if (::placeMark.isInitialized) {
+                    map.mapObjects.remove(placeMark)
+                }
                 placeMark = map.mapObjects.addPlacemark()
                 placeMark.apply {
                     geometry = point
@@ -54,31 +58,26 @@ class MapFragment : Fragment(), UserLocationObjectListener {
                 placeMark.isDraggable = true
             }
 
-            override fun onMapLongTap(map: com.yandex.mapkit.map.Map, point: Point) {
-                placeMark = map.mapObjects.addPlacemark()
-                placeMark.apply {
-                    geometry = point
-                    setIcon(imageProvider)
-                }
-                placeMark.isDraggable = true
-            }
+            override fun onMapLongTap(map: com.yandex.mapkit.map.Map, point: Point) = Unit
         }
 
         mapView = binding.map.apply {
             userLocation = MapKitFactory.getInstance().createUserLocationLayer(mapWindow)
             userLocation.isVisible = true
             userLocation.isHeadingEnabled = false
-            mapWindow.map.addInputListener(inputListener)
+            mapWindow.map.addInputListener(inputListener as InputListener)
             userLocation.setObjectListener(this@MapFragment)
         }
 
         binding.topAppBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.save -> {
-                    setFragmentResult(
-                        "mapFragment",
-                        bundleOf("point" to gson.toJson(placeMark.geometry))
-                    )
+                    if (::placeMark.isInitialized) {
+                        setFragmentResult(
+                            "mapFragment",
+                            bundleOf("point" to gson.toJson(placeMark.geometry))
+                        )
+                    }
                     findNavController().navigateUp()
                     true
                 }
@@ -106,6 +105,14 @@ class MapFragment : Fragment(), UserLocationObjectListener {
         super.onStop()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        inputListener?.let {
+            mapView.mapWindow.map.removeInputListener(it)
+            inputListener = null
+        }
+    }
+
     override fun onObjectAdded(view: UserLocationView) = Unit
 
     override fun onObjectRemoved(view: UserLocationView) = Unit
@@ -119,4 +126,5 @@ class MapFragment : Fragment(), UserLocationObjectListener {
             CameraPosition(view.arrow.geometry, 16f, 0f, 0f)
         )
     }
+
 }
